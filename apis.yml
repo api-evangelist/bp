@@ -1,12 +1,11 @@
 aid: bp
-url: 
-  https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml
 apis:
   - aid: bp:bp
     name: BP
     tags:
-      - Oil
       - Gas
+      - Oil
       - Refinery
     humanURL: ' https://developer-dev.bp.com/hub'
     properties:
@@ -21,8 +20,8 @@ apis:
       through investments in renewable energy, energy efficiency, and low-carbon technologies.
 name: BP
 tags:
-  - Oil
   - Gas
+  - Oil
   - Refinery
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
