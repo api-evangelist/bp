@@ -1,42 +1,75 @@
 # BP (bp)
-BP, or British Petroleum, is a multinational oil and gas company that operates in over 70 countries worldwide. The company is involved in all aspects of the oil and gas industry, including exploration, production, refining, distribution, and marketing. BP is one of the largest integrated energy companies in the world, with a focus on delivering energy solutions that are reliable, efficient, and sustainable. In addition to its core oil and gas business, BP is also investing in renewable energy sources such as wind and solar power, as well as developing new technologies to reduce carbon emissions and combat climate change. Overall, BP plays a critical role in meeting the world's growing energy needs while also working towards a more sustainable future.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml)
+BP (British Petroleum) is one of the world's largest integrated energy companies, operating in over 70 countries across oil and gas exploration, production, refining, distribution, marketing, petrochemicals, power generation, and renewable energy. BP operates an API Marketplace developer portal at developer.bp.com, enabling seamless integration with BP's digital services. The portal provides API discovery, testing playgrounds, documentation, billing management, and usage monitoring.
+
+**URL:** [https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml)
 
 ## Scope
 
-- **Type:** Index 
-- **Position:** Consumer 
-- **Access:** 3rd-Party 
+- **Type:** Index
+- **Position:** Consumer
+- **Access:** 3rd-Party
 
-## Tags:
+## Tags
 
- - Oil, Gas, Refinery
+- Energy
+- Oil
+- Gas
+- Renewables
+- Developer Platform
 
 ## Timestamps
 
-- **Created:** 2025-03-01 
-- **Modified:** 2025-03-01 
+- **Created:** 2025-03-01
+- **Modified:** 2026-04-21
 
 ## APIs
 
-### BP
-BP, also known as British Petroleum, is one of the world's largest oil and gas companies. With operations in over 70 countries, BP explores for, produces, refines, markets, and distributes oil, gas, and renewable energy sources. The company is also involved in petrochemicals, power generation, and trading. BP is committed to advancing the energy transition and reducing its carbon footprint through investments in renewable energy, energy efficiency, and low-carbon technologies. Additionally, BP has established initiatives to promote sustainability, environmental stewardship, and social responsibility in the communities where it operates.
+### BP API Marketplace
 
-**Human URL:** [ https://developer-dev.bp.com/hub]( https://developer-dev.bp.com/hub)
+The BP API Marketplace is a developer portal providing access to BP's digital APIs and services. Features include API discovery, testing playground, documentation and tutorials, usage monitoring, error tracking, latency monitoring, and billing management.
 
+**Human URL:** [https://developer.bp.com/hub](https://developer.bp.com/hub)
 
-#### Tags:
+#### Tags
 
- - Oil, Gas, Refinery
+- Energy
+- Oil
+- Gas
+- Developer Platform
 
 #### Properties
 
-- [Documentation]( https://developer-dev.bp.com/hub)
+- [Portal](https://developer.bp.com/hub)
+
+## Developer Portal Features
+
+- API discovery and browsing
+- Testing playground environment
+- API documentation and tutorials
+- API specifications
+- Developer dashboard
+- Usage monitoring and analytics
+- Error and latency tracking
+- Billing and subscription management
+
+## Common Properties
+
+- [Website](https://www.bp.com)
+- [Developer Portal](https://developer.bp.com/hub)
+- [Investor Relations](https://www.bp.com/en/global/corporate/investors.html)
+- [Sustainability](https://www.bp.com/en/global/corporate/sustainability.html)
+
+## About
+
+- **Founded:** 1909
+- **Headquarters:** London, United Kingdom
+- **Stock Ticker:** BP (NYSE, LSE)
+- **Industry:** Integrated Energy, Oil and Gas (SIC 2911)
+- **Operations:** 70+ countries
 
 ## Maintainers
 
 **FN:** Kin Lane
 
 **Email:** info@apievangelist.com
-
