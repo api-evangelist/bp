@@ -39,6 +39,10 @@ apis:
       playground, documentation and tutorials, API specifications, usage monitoring,
       error and latency tracking, and billing management for API subscriptions.
 common:
+  - type: GitHubOrganization
+    url: https://github.com/bp
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/bp
   - type: Website
     url: https://www.bp.com
   - type: DeveloperPortal
