@@ -39,6 +39,8 @@ apis:
       playground, documentation and tutorials, API specifications, usage monitoring,
       error and latency tracking, and billing management for API subscriptions.
 common:
+  - type: DomainSecurity
+    url: security/bp-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/bp
   - type: LinkedIn
