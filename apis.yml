@@ -36,7 +36,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bp.png
 access: 3rd-Party
 created: '2025-03-01'
 modified: '2026-04-21'
-position: Consumer
+position: Consuming
 description: >-
   BP (British Petroleum) is one of the world's largest integrated energy companies,
   operating in over 70 countries across oil and gas exploration, production, refining,
