@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: BP Authentication — API Evangelist enhancements
+  version: 1.0.0
+extends: ../openapi/bp-fleet-authentication-openapi.json
+x-generated: '2026-09-04'
+x-method: generated
+x-source: Base URLs recovered from the bp Open Fleet portal's own environment switcher, which composes
+  https://api.fleet.bp.com/{apiPrefix}/v{version}/ and the sandbox equivalent. The published spec ships
+  no servers[] block at all.
+actions:
+- target: $
+  description: Add the servers[] block the published contract omits. Only the authentication prefix is
+    publicly confirmed (the portal's own code compares the path segments against the literals "authentication"
+    and "v1.0"); every other apiPrefix is supplied by the portal after sign-in and is left templated rather
+    than guessed.
+  update:
+    servers:
+    - url: https://api.fleet.bp.com/authentication/v1.0/
+      description: Production
+    - url: https://api.sandbox.fleet.bp.com/authentication/v1.0/
+      description: Sandbox
+- target: $.info
+  description: Record the bp Open Fleet product identity this contract belongs to.
+  update:
+    x-bp-product-code: FLEET_AUTHENTICATION_1.0
+    x-bp-api-name: Authentication
+    x-bp-portal: https://developer.fleet.bp.com/DE/apis
+    x-bp-sandbox-access: true

@@ -1,0 +1,54 @@
+generated: '2026-09-04'
+method: searched
+source: https://b2bid.bp.com/.well-known/openid-configuration (fetched, HTTP 200)
+provider: BP
+providerId: bp
+docs: https://developer.fleet.bp.com/DE/getting-started
+description: >-
+  OAuth scopes advertised by BP's B2B identity host (b2bid.bp.com, ForgeRock AM), which is the
+  authorization server behind the bp Open Fleet developer portal. These are the scopes the
+  authorization server itself publishes as supported.
+authorization_server: https://b2bid.bp.com/am/oauth2
+scopes:
+  - name: openid
+    description: Standard OpenID Connect scope; requests an ID token.
+    standard: true
+  - name: profile
+    description: Standard OIDC profile claims.
+    standard: true
+  - name: email
+    description: Standard OIDC email claims.
+    standard: true
+  - name: phone
+    description: Standard OIDC phone claims.
+    standard: true
+  - name: b2b-profile
+    description: BP-specific scope carrying the B2B business-account profile.
+    standard: false
+  - name: b2b-consent
+    description: BP-specific scope covering B2B consent state for the authenticated business user.
+    standard: false
+claims_supported:
+  - sub
+  - email
+  - email_verified
+  - phone
+  - phone_verified
+  - nickname
+  - locale
+  - appname
+  - subname
+  - external_id
+  - custom_username
+  - passwordless
+notes:
+  - >-
+    The six bp Open Fleet resource OpenAPIs declare a bearer securityScheme with NO oauth2
+    scopes block, so no per-operation scope requirements are published. The scopes above govern
+    the portal sign-in flow, not fine-grained API authorization.
+  - >-
+    Authorization for the resource APIs is instead scoped by the credential's environment
+    (sandbox vs production) and by the AuthorityIds / ParentIds the caller may query.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,87 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://developer.fleet.bp.com/DE/api-status (BP's own API status page, HTTP 200) and the
+  version metadata published per product on that page and on
+  https://developer.fleet.bp.com/DE/apis.
+provider: BP
+providerId: bp
+description: >-
+  Versioning, status and support posture for the bp Open Fleet API platform.
+status_page:
+  present: true
+  url: https://developer.fleet.bp.com/DE/api-status
+  type: first-party
+  detail: >-
+    BP publishes a per-product status page on its own developer portal. It is not a third-party
+    status service (no Statuspage/Instatus), it exposes no incident history, no uptime figures and
+    no subscribe/RSS feed — only a current state per API product.
+  observed_2026_09_04:
+    - api: Authentication
+      product_code: FLEET_AUTHENTICATION_1.0
+      status: Operational
+    - api: Card Management
+      product_code: FLEET_CARD_MANAGEMENT_1.0
+      status: Operational
+    - api: Invoice Management
+      product_code: FLEET_INVOICE_MANAGEMENT_1.0
+      status: Operational
+    - api: Transaction Management
+      product_code: FLEET_TRANSACTION_MANAGEMENT_1.0
+      status: Operational
+    - api: Aral AppConnect (Pay@Pump)
+      product_code: FLEETPAYATPUMT_1.0
+      status: Operational
+    - api: Retail Site Information
+      product_code: FLEETCORE-SITE_1.0
+      status: Operational
+versioning:
+  scheme: major-in-path
+  detail: >-
+    The version is carried as a path segment (v{version}) in the base URL, and Aral AppConnect
+    additionally accepts an api-version request header. Product versions are pinned in the
+    product code itself (e.g. FLEET_CARD_MANAGEMENT_1.0).
+  current_versions:
+    - api: Authentication
+      version: v1.0
+    - api: Card Management
+      version: v1
+    - api: Invoice Management
+      version: v1.0
+    - api: Transaction Management
+      version: v1.0
+    - api: Retail Site Information
+      version: '1.0'
+    - api: Aral AppConnect (Pay@Pump)
+      version: '1'
+  all_products_at_v1: true
+deprecation:
+  policy_published: false
+  sunset_header: not published
+  deprecation_header: not published
+  rfc8594: false
+  deprecated_operations: []
+  detail: >-
+    No deprecation or sunset policy is published, and no operation in any of the six OpenAPI
+    documents carries deprecated: true. Because every product is still on its first major version,
+    BP has not yet had to retire anything publicly.
+sla:
+  published: false
+  detail: No uptime commitment, support-response target or credit scheme is published on the portal.
+roadmap:
+  published: partially
+  detail: >-
+    Not a dated roadmap, but BP states forward intent inside the Card Management API description:
+    "We are currently only exposing a single endpoint allowing to get your latest card updates.
+    We have a series of endpoints under development that should be released over the coming few
+    months."
+support:
+  channel: portal support page
+  url: https://developer.fleet.bp.com/DE/support
+  detail: >-
+    An FAQ plus a contact form. BP asks that an API error report include the correlation id.
+    A group mailbox is published on the page; individual named-employee addresses also appear
+    there and are deliberately not recorded here.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

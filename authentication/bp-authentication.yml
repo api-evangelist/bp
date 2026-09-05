@@ -1,0 +1,110 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://b2bid.bp.com/.well-known/openid-configuration (fetched, HTTP 200) plus the
+  securitySchemes and /token operation of the six bp Open Fleet OpenAPI documents published on
+  https://developer.fleet.bp.com/DE/api-status, and the OAuth client code shipped by that portal.
+provider: BP
+providerId: bp
+description: >-
+  Authentication profile for the bp Open Fleet API platform. Two distinct surfaces exist: a
+  machine-to-machine client-credentials exchange that issues the bearer token every Open Fleet
+  API requires, and a browser OpenID Connect flow on BP's B2B identity host used to sign in to
+  the developer portal itself.
+surfaces:
+  - name: bp Open Fleet API — bearer token
+    type: machine-to-machine
+    scheme: oauth2-client-credentials
+    token_endpoint: https://api.fleet.bp.com/authentication/v1.0/token
+    token_endpoint_note: >-
+      The Authentication API's OpenAPI declares POST /token. The host and the
+      /authentication/v1.0/ prefix are read from the portal's own base-URL builder, which
+      composes https://api.fleet.bp.com/{apiPrefix}/v{version}/ and compares the path segments
+      against the literals "authentication" and "v1.0".
+    credentials:
+      - name: client_id
+        in: formData
+        required: true
+      - name: client_secret
+        in: formData
+        required: true
+    request_media_type: application/x-www-form-urlencoded
+    response:
+      access_token: string
+      token_type: string
+      expires_in: integer (int32)
+      ext_expires_in: integer (int32)
+    responses_documented: [200, 401, 403]
+    environment_scoping: >-
+      Credentials are bound to one environment. BP's getting-started page states sandbox
+      credentials can only reach sandbox authentication and API product endpoints, and
+      production credentials only production endpoints.
+  - name: bp Open Fleet API — resource requests
+    type: bearer
+    scheme: http-bearer
+    header: Authorization
+    format: "Bearer <access_token>"
+    declared_as: >-
+      Every resource spec declares securitySchemes.Bearer as type apiKey, in header, name
+      Authorization, described as "JWT Authorization header using the Bearer scheme". That is an
+      apiKey-typed declaration of what is functionally HTTP bearer auth — a common OpenAPI 3.0
+      idiom, recorded here as published rather than corrected.
+    applies_to:
+      - Card Management
+      - Invoice Management
+      - Transaction Management
+      - Retail Site Information
+      - Aral AppConnect (Pay@Pump)
+  - name: bp B2B identity (developer portal sign-in)
+    type: user
+    scheme: openid-connect
+    issuer: https://b2bid.bp.com/am/oauth2
+    discovery: https://b2bid.bp.com/.well-known/openid-configuration
+    platform: ForgeRock Access Management
+    client_id_observed: openfleet-global-web
+    endpoints:
+      authorization: https://b2bid.bp.com/am/oauth2/authorize
+      token: https://b2bid.bp.com/am/oauth2/access_token
+      userinfo: https://b2bid.bp.com/am/oauth2/userinfo
+      jwks: https://b2bid.bp.com/am/oauth2/connect/jwk_uri
+      registration: https://b2bid.bp.com/am/oauth2/register
+      introspection: https://b2bid.bp.com/am/oauth2/introspect
+      revocation: https://b2bid.bp.com/am/oauth2/token/revoke
+      end_session: https://b2bid.bp.com/am/oauth2/connect/endSession
+      pushed_authorization_request: https://b2bid.bp.com/am/oauth2/par
+    pkce:
+      supported: true
+      methods: [plain, S256]
+      observed_in_use: S256
+    grant_types_supported:
+      - authorization_code
+      - client_credentials
+      - refresh_token
+      - implicit
+      - password
+      - urn:ietf:params:oauth:grant-type:device_code
+      - urn:ietf:params:oauth:grant-type:jwt-bearer
+      - urn:ietf:params:oauth:grant-type:saml2-bearer
+      - urn:ietf:params:oauth:grant-type:uma-ticket
+      - urn:openid:params:grant-type:ciba
+    token_endpoint_auth_methods_supported:
+      - client_secret_basic
+      - client_secret_post
+      - private_key_jwt
+      - tls_client_auth
+      - self_signed_tls_client_auth
+      - none
+    mutual_tls_bound_access_tokens: true
+    dynamic_client_registration: true
+    pushed_authorization_requests: true
+    require_pushed_authorization_requests: false
+notes:
+  - >-
+    No API key, basic-auth or mTLS option is documented for the Open Fleet resource APIs; a
+    bearer token from the Authentication API is the only published path.
+  - >-
+    The separate bp API Marketplace (api.developer.bp.com) documents Basic Auth and OAuth2, but
+    its catalogue is behind a login and no machine-readable contract was reachable anonymously.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,105 @@
+generated: '2026-09-04'
+method: probed
+source: >-
+  Anonymous HTTP probes of every host this record knows — the registrable domain and www,
+  the developer portal hosts, both bp Open Fleet API hosts, and the b2bid.bp.com authorization
+  server named by the Open Fleet portal's own OAuth client code.
+note: >-
+  Only ONE served document was found: the OpenID Connect discovery document on b2bid.bp.com,
+  BP's B2B ForgeRock AM identity host. Both developer portals answer 200 to EVERY path with an
+  identical SPA/Next.js shell (developer.bp.com serves byte-identical 431-byte HTML for
+  /.well-known/security.txt and for a nonsense path; api.developer.bp.com rewrites every unknown
+  path to /hub). Those 200s are NOT documents and are recorded as misses. www.bp.com returns 403
+  for the whole /.well-known/ namespace from its edge, which is an edge policy rather than a
+  measured absence.
+hosts:
+  - host: b2bid.bp.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: bp-openid-configuration.json
+        note: >-
+          Real 5,671-byte OIDC discovery document (ForgeRock AM). issuer
+          https://b2bid.bp.com/am/oauth2. Also served at /am/oauth2/.well-known/openid-configuration.
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+  - host: www.bp.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        note: Edge returns a 3,939-byte "Something went wrong" page for the entire /.well-known/ namespace.
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+  - host: bp.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+  - host: developer.bp.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: >-
+          NOT A DOCUMENT. SPA catch-all: this path, /openapi.json and /zzz-nonexistent-path-12345
+          all return the same 431-byte HTML shell (md5 732b838e4fdbf869b0de8436db4fae1b). Recorded
+          as a miss.
+      - path: /.well-known/openid-configuration
+        status: 200
+        note: NOT A DOCUMENT — same SPA shell.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        note: NOT A DOCUMENT — same SPA shell.
+      - path: /.well-known/api-catalog
+        status: 200
+        note: NOT A DOCUMENT — same SPA shell.
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        note: NOT A DOCUMENT — same SPA shell.
+  - host: api.developer.bp.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: >-
+          NOT A DOCUMENT. Next.js rewrites every unknown path to /hub and returns the same
+          197,075-byte marketplace shell.
+      - path: /.well-known/openid-configuration
+        status: 200
+        note: NOT A DOCUMENT — rewritten to /hub.
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        note: NOT A DOCUMENT — rewritten to /hub.
+      - path: /.well-known/api-catalog
+        status: 200
+        note: NOT A DOCUMENT — rewritten to /hub.
+  - host: developer.fleet.bp.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        note: >-
+          Edge returns a 412-byte redirect stub for every unrouted path, including /robots.txt
+          and /llms.txt. A real absence, not a shell.
+      - path: /llms.txt
+        status: 403
+      - path: /robots.txt
+        status: 403
+  - host: api.fleet.bp.com
+    documents:
+      - path: /.well-known/oauth-protected-resource
+        status: 403
+        note: >-
+          API gateway answers with its real JSON error envelope
+          {"errors":[{"errorCode":403,"errorMessage":"Forbidden"}]} — see errors/bp-problem-types.yml.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

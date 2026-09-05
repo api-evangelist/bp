@@ -1,0 +1,115 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from the six bp Open Fleet OpenAPI documents in openapi/ and the OIDC discovery
+  document in well-known/bp-openid-configuration.json.
+provider: BP
+providerId: bp
+description: >-
+  Cross-cutting standards conformance for the bp Open Fleet API platform. Reward-only: an entry
+  with conforms:false records a standard that was checked for and not found, not a penalty.
+conformance:
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: >-
+      Client-credentials exchange at POST /token returning access_token/token_type/expires_in
+      (openapi/bp-fleet-authentication-openapi.json), and a full OAuth 2.0 authorization server
+      at https://b2bid.bp.com/am/oauth2 advertising authorize, access_token, introspect, revoke
+      and register endpoints.
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence: >-
+      https://b2bid.bp.com/.well-known/openid-configuration (HTTP 200) declares issuer
+      https://b2bid.bp.com/am/oauth2, a userinfo endpoint, a jwks_uri, id_token signing
+      algorithms and standard OIDC scopes (openid, profile, email, phone).
+  - id: rfc8414
+    name: OAuth 2.0 Authorization Server Metadata
+    conforms: partial
+    evidence: >-
+      The OIDC discovery document is served, but /.well-known/oauth-authorization-server itself
+      returns 404 on b2bid.bp.com.
+  - id: rfc7636
+    name: PKCE
+    conforms: true
+    evidence: >-
+      code_challenge_methods_supported ["plain","S256"] in the discovery document; the Open Fleet
+      portal's own client uses S256 with code_challenge_method=S256.
+  - id: rfc9126
+    name: Pushed Authorization Requests (PAR)
+    conforms: true
+    evidence: >-
+      pushed_authorization_request_endpoint https://b2bid.bp.com/am/oauth2/par is advertised.
+      require_pushed_authorization_requests is false, so PAR is supported but not mandatory.
+  - id: rfc7591
+    name: OAuth 2.0 Dynamic Client Registration
+    conforms: true
+    evidence: registration_endpoint https://b2bid.bp.com/am/oauth2/register is advertised.
+  - id: rfc8705
+    name: OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens
+    conforms: true
+    evidence: >-
+      tls_client_certificate_bound_access_tokens is true and token_endpoint_auth_methods_supported
+      includes tls_client_auth and self_signed_tls_client_auth.
+  - id: rfc7662
+    name: OAuth 2.0 Token Introspection
+    conforms: true
+    evidence: introspection_endpoint https://b2bid.bp.com/am/oauth2/introspect.
+  - id: rfc7009
+    name: OAuth 2.0 Token Revocation
+    conforms: true
+    evidence: revocation_endpoint https://b2bid.bp.com/am/oauth2/token/revoke.
+  - id: openapi
+    name: OpenAPI Specification
+    conforms: true
+    version: 3.0.1
+    evidence: All six published contracts declare openapi 3.0.1.
+  - id: pagination
+    name: Paginated collections
+    conforms: true
+    evidence: >-
+      Page/PageSize (Card, Invoice, Transaction) and page/pageSize (Retail Site Information)
+      query parameters, with numberOfRecords returned on site responses.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      No response in any of the six specs declares application/problem+json. BP uses three
+      provider-specific JSON error envelopes instead — see errors/bp-problem-types.yml.
+  - id: idempotency
+    name: Idempotent write semantics
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent on any of the five mutating operations. See the
+      idempotency block in conventions/bp-conventions.yml (coverage: none).
+  - id: rfc8594
+    name: Sunset / Deprecation headers
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation header is documented and no operation is marked deprecated.
+  - id: rfc9116
+    name: security.txt
+    conforms: false
+    evidence: >-
+      No /.well-known/security.txt on any BP host; the /.well-known/ namespace on bp.com returns
+      403. BP does run a disclosure programme, just not discoverable this way.
+domain_standards:
+  checked: true
+  found: false
+  detail: >-
+    No domain standard is declared by any of the six contracts. The fleet-card and mobility market
+    does have interchange standards — notably the IFSF (International Forecourt Standards Forum)
+    specifications for forecourt and fuel-card messaging, and OCPI/OCPP on the EV-charging side —
+    but nothing in BP's published contracts references them. The schemas are BP-internal shapes
+    (TransformedSite, OpenApiCardResponse, pol_service_api.Models.Dsp.*) with no standard message
+    type, URN, namespace or identifier scheme. Recorded as an honest absence: reward-only, so this
+    is not a penalty, and no conformance was invented to fill the slot.
+  candidates_checked:
+    - IFSF forecourt / fuel card messaging
+    - OCPI / OCPP (EV charging roaming)
+    - ISO 20022 (financial messaging, relevant to the invoice surface)
+    - EDIFACT / X12 (invoice interchange)
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

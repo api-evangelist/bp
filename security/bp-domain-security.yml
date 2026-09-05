@@ -1,11 +1,11 @@
-generated: '2026-07-11'
+generated: '2026-09-04'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.bp.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Dec 12 23:59:59 2026 GMT
+  cert_expires: Mar 19 23:59:59 2027 GMT
   hsts: null
 - host: developer.bp.com
   https: true
@@ -16,7 +16,13 @@ hosts:
 domains:
 - domain: bp.com
   dnssec: false
-  caa: []
+  caa:
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issue "ssl.com"
+  - 0 issue "www.digicert.com"
+  - 0 issuewild "comodoca.com"
+  - 0 issuewild "digicert.com; cansignhttpexchanges=yes"
+  - 0 issuewild "letsencrypt.org"
   spf: true
   dmarc: true
   dmarc_policy: reject

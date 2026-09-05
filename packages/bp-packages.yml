@@ -1,0 +1,74 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://api.github.com/orgs/bp/repos (17 public repositories) and the PyPI JSON metadata API
+  for each candidate package.
+provider: BP
+providerId: bp
+description: >-
+  First-party packages published by BP. IMPORTANT: BP publishes NO client SDK for any of its
+  APIs. The packages below are open-source domain libraries for subsurface and reservoir
+  engineering that BP maintains on PyPI — they are genuinely first-party and actively released,
+  but they do not wrap the bp Open Fleet APIs or the bp API Marketplace, and no `SDKs` pointer
+  is emitted on their account.
+sdk_count: 0
+package_count: 2
+packages:
+  - name: resqpy
+    registry: pypi
+    url: https://pypi.org/project/resqpy/
+    repository: https://github.com/bp/resqpy
+    official: true
+    language: Python
+    version: 5.2.0
+    published: '2026-06-22'
+    description: Python API for working with RESQML models (subsurface reservoir data standard).
+    wraps_bp_api: false
+    note: >-
+      Actively maintained — the latest release is under three months old. Implements the Energistics
+      RESQML data standard; a file-format library, not an HTTP client.
+  - name: ResSimpy
+    registry: pypi
+    url: https://pypi.org/project/ResSimpy/
+    repository: https://github.com/bp/ResSimpy
+    official: true
+    language: Python
+    version: 2.6.1
+    published: '2026-07-07'
+    license: Apache-2.0
+    description: Python library for working with reservoir simulator models.
+    wraps_bp_api: false
+    note: Actively maintained — latest release two months old.
+registries_checked:
+  - registry: npm
+    result: no first-party BP package found
+  - registry: pypi
+    result: 2 found (resqpy, ResSimpy)
+  - registry: maven-central
+    result: no first-party BP package found
+  - registry: nuget
+    result: no first-party BP package found
+  - registry: rubygems
+    result: no first-party BP package found
+  - registry: crates.io
+    result: no first-party BP package found
+  - registry: packagist
+    result: no first-party BP package found
+  - registry: pkg.go.dev
+    result: no first-party BP package found
+gaps:
+  - >-
+    No client library exists for any of the six bp Open Fleet APIs in any language. Integrators
+    must hand-roll the OAuth client-credentials exchange and the request signing.
+  - >-
+    The `dasher` package on PyPI shares a name with BP's github.com/bp/dasher repository but is
+    an unrelated project by a different author (mfaafm, a plotly-dash tool). It is deliberately
+    NOT recorded as a BP package.
+other_public_repositories:
+  note: >-
+    BP's GitHub organisation also carries FreeDDS (seismic I/O, C), spark-cef-reader (Scala),
+    openshift-ado, ado-subscription-generator, opa-lambda-extension-plugin, dasher and
+    dasher-schema. None is published to a package registry under BP's name.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

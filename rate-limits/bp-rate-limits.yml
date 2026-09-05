@@ -4,89 +4,92 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: BP
 providerId: bp
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-04'
+generated: '2026-09-04'
+method: searched
+source: https://developer.fleet.bp.com/DE/apis
+note: >-
+  REPLACES a 2026-05-04 scaffold that carried invented tier limits (10/min free, 100/min pro,
+  1000/min enterprise) and an invented X-RateLimit-* header set. Every limit below is the value
+  BP itself publishes on the product's catalogue entry in the bp Open Fleet developer portal,
+  quoted verbatim in `published_as`.
 tags:
   - Energy
   - Oil
   - Gas
-  - Renewables
-  - Developer Platform
+  - Fleet
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the BP API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: >-
+  Published rate limits for the six bp Open Fleet APIs. BP states a limit per API product. It
+  does NOT publish rate-limit response headers, a throttling status code, burst allowances or
+  Retry-After semantics, so a client can read the ceiling in advance but cannot observe its
+  remaining budget at runtime.
+limit_count: 6
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: not published
+  remaining: not published
+  reset: not published
+  retryAfter: not published
+  policy: not published
+  note: >-
+    No RateLimit-* or X-RateLimit-* header is documented anywhere in the portal or declared in
+    any of the six OpenAPI documents.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled: not published
+  note: >-
+    No 429 response is declared on any of the 14 published operations. The status code returned
+    on exhaustion is undocumented.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
+  - api: Aral AppConnect (Pay@Pump)
+    product_code: FLEETPAYATPUMT_1.0
+    scope: api-product
+    metric: requests_per_second
+    limit: 100
+    published_as: 100 requests / second
+    countries: [DE]
+  - api: Retail Site Information
+    product_code: FLEETCORE-SITE_1.0
+    scope: api-product
+    metric: requests_per_second
+    limit: 100
+    published_as: 100 Request per Second
+    countries: [AT, BE, DE, LU, NL, PL, PT, ES, UK]
+  - api: Authentication
+    product_code: FLEET_AUTHENTICATION_1.0
+    scope: api-product
     metric: requests_per_minute
     limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - BP API Marketplace
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - BP API Marketplace
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
+    published_as: 10 requests / minute
+    countries: [DE]
+    note: >-
+      The token endpoint is the tightest limit on the platform at 10/min, which effectively
+      requires clients to cache and reuse the access token rather than fetch one per call.
+  - api: Card Management
+    product_code: FLEET_CARD_MANAGEMENT_1.0
+    scope: api-product
     metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - BP API Marketplace
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - BP API Marketplace
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
+    limit: 10
+    published_as: 10 requests / minute
+    countries: [AT, BE, DE, LU, NL, PL, PT, ES, UK]
+  - api: Invoice Management
+    product_code: FLEET_INVOICE_MANAGEMENT_1.0
+    scope: api-product
     metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - BP API Marketplace
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    limit: 10
+    published_as: 10 requests / minute
+    countries: [AT, BE, DE, LU, NL, PL, PT, ES, UK]
+  - api: Transaction Management
+    product_code: FLEET_TRANSACTION_MANAGEMENT_1.0
+    scope: api-product
+    metric: requests_per_minute
+    limit: 10
+    published_as: 10 requests / minute
+    countries: [AT, BE, DE, LU, NL, PL, PT, ES, UK]
+gaps:
+  - No published burst allowance.
+  - No published quota (daily/monthly) — only a rate.
+  - No published per-key vs per-account distinction; the limit is stated per API product.
+  - No documented backoff guidance.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

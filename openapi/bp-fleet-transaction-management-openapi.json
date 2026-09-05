@@ -1,0 +1,588 @@
+{
+  "info": {
+    "title": "OpenAPI Endpoints",
+    "version": "v1.0"
+  },
+  "paths": {
+    "/transactions": {
+      "get": {
+        "tags": [
+          "OpenApiTransactions"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "Application/Json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenApiTransactionsResponse"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "Application/Json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultEntity"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "500": {
+            "content": {
+              "Application/Json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "AuthorityIds",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Only search transactions with matching authorityIds - Multiple authorities can be added via authorityIds=A123,authorityIds=A345,..."
+          },
+          {
+            "in": "query",
+            "name": "StartDateTime",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Start date time for search"
+          },
+          {
+            "in": "query",
+            "name": "EndDateTime",
+            "schema": {
+              "type": "string"
+            },
+            "description": "End date time for search"
+          },
+          {
+            "in": "query",
+            "name": "PageSize",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Max results to return - If set must be between 1 and 1000"
+          },
+          {
+            "in": "query",
+            "name": "Page",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Page Number"
+          },
+          {
+            "in": "query",
+            "name": "ParentIds",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Only search transactions with matching parentIds"
+          },
+          {
+            "in": "header",
+            "name": "x-correlation-id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Correlation Id"
+          }
+        ]
+      }
+    }
+  },
+  "openapi": "3.0.1",
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ResultEntity": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "errorDetails": {
+            "$ref": "#/components/schemas/ErrorDetailsEntity"
+          },
+          "correlationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorDetailsEntity": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenApiTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string",
+            "nullable": true,
+            "description": "Site brand. Brand for the site e.g. AR, BP"
+          },
+          "siteId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Site id.  Internal Id for fuel site.  Use this Id when retrieving site details"
+          },
+          "isPriced": {
+            "type": "string",
+            "nullable": true,
+            "description": "Is priced."
+          },
+          "odometer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Odometer reading"
+          },
+          "parentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Parent account number"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "description": "Quantity of commodity.  e.g. 1, 50.12"
+          },
+          "siteName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Site name.  Name of the site"
+          },
+          "siteType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Site type.  Internal site type"
+          },
+          "alertLevel": {
+            "type": "string",
+            "nullable": true,
+            "description": "Alert level"
+          },
+          "driverName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Driver name.  Name of the driver"
+          },
+          "authorityId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Customer account number"
+          },
+          "co2Emission": {
+            "type": "string",
+            "nullable": true,
+            "description": "Co2 emissions"
+          },
+          "invoiceDate": {
+            "type": "string",
+            "nullable": true,
+            "description": "Invoice date"
+          },
+          "pricingType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Pricing type.  Options are {LST, CTB, TVP, CTA}."
+          },
+          "productCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Product code. Internal id. e.g. 39 (Diesel in Poland)"
+          },
+          "productType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Product type"
+          },
+          "rcIndicator": {
+            "type": "string",
+            "nullable": true,
+            "description": "RC indicator.  yes if VatCode is RC."
+          },
+          "customerName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Customer name.  Name of customer associated to the transaction"
+          },
+          "issuerNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Card issuer number. Based on issuing country. Germany Aral Komfort : 700669 Germany exc. ACK : 700674 \r\nUK Distributors : 700676 UK(exc. Dist) : 700676 Belgium : 700677 Austria : 700673 Netherlands : 700678 \r\nLuxembourg : 700685 Poland exc. Komfort : 700679 Poland Prepay(Komfort) : 700699 Portugal (exc. bonus) : 700684 \r\nPortugal Bonus Cards : 705684 Spain (exc. bonus) : 700680 Spain Bonus Cards : 705680"
+          },
+          "quantityUnit": {
+            "type": "string",
+            "nullable": true,
+            "description": "Quantity units.  e.g. L,KG,KW,UNIT"
+          },
+          "invoiceNumber": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "Invoice number."
+          },
+          "oacResultCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "OAC result code"
+          },
+          "supplyCountry": {
+            "type": "string",
+            "nullable": true,
+            "description": "Supply country.  Iso code"
+          },
+          "transactionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Transaction unique id"
+          },
+          "vatPercentage": {
+            "type": "string",
+            "nullable": true,
+            "description": "VAT percentage."
+          },
+          "vehicleNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Vehicle number. Number of the vehicle"
+          },
+          "cardHolderName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Card holder name"
+          },
+          "costCentreName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cost centre number"
+          },
+          "creditDebitInd": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullCardNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Full card number - 700674999999123456"
+          },
+          "invoiceCountry": {
+            "type": "string",
+            "nullable": true,
+            "description": "Invoice country.  Iso code of invoice country"
+          },
+          "invoiceDueDate": {
+            "type": "string",
+            "nullable": true,
+            "description": "Invoice due date"
+          },
+          "issuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Issuer currency."
+          },
+          "supplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Supply currency"
+          },
+          "invoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Invoice currency."
+          },
+          "secondSortLabel": {
+            "type": "string",
+            "nullable": true,
+            "description": "Second sort label"
+          },
+          "transactionType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Transaction Type"
+          },
+          "alertDescription": {
+            "type": "string",
+            "nullable": true,
+            "description": "Alert description"
+          },
+          "cardSerialNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Six digits card serial number - 123456"
+          },
+          "embossingLineOne": {
+            "type": "string",
+            "nullable": true,
+            "description": "1st line embossed on the card"
+          },
+          "embossingLineTwo": {
+            "type": "string",
+            "nullable": true,
+            "description": "2nd line embossed on the card"
+          },
+          "authorisationType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Authorisation type"
+          },
+          "recordCreatedDate": {
+            "type": "string",
+            "nullable": true,
+            "description": "Record created date.  The datetime that the transaction was created"
+          },
+          "subCostCentreName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Sub cost centre name"
+          },
+          "transactionStatus": {
+            "type": "string",
+            "nullable": true,
+            "description": "Transaction status {Authorised, Declined, Invoiced, Uninvoiced}"
+          },
+          "vehicleDriverCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "Vehicle driver code.  Internal driver code"
+          },
+          "appliedPricingType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Applied pricing type.  Options are {LST, TVP}."
+          },
+          "changeableOdometer": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "Odometer reading override"
+          },
+          "productDescription": {
+            "type": "string",
+            "nullable": true,
+            "description": "Product description"
+          },
+          "recordModifiedDate": {
+            "type": "string",
+            "nullable": true,
+            "description": "Record modified date.  The datetime that the transaction was last updated"
+          },
+          "siteTypeDescription": {
+            "type": "string",
+            "nullable": true,
+            "description": "Site type decription.  Description of the site type"
+          },
+          "transactionDateTime": {
+            "type": "string",
+            "nullable": true,
+            "description": "Date of transaction. Date at which the transaction was initially authorise."
+          },
+          "transactionUniqueId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Transacted product unique id"
+          },
+          "summaryStatementDate": {
+            "type": "string",
+            "nullable": true,
+            "description": "Summary statement date."
+          },
+          "additionalInformation": {
+            "type": "string",
+            "nullable": true,
+            "description": "Additional information captured at pickup"
+          },
+          "summaryStatementNumber": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "Invoice summary statement number"
+          },
+          "netValueInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net value in supply currency"
+          },
+          "transactionVoucherNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Transaction voucher number"
+          },
+          "vatValueinSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "VAT value in supply currency"
+          },
+          "vehicleRegistrationNumber": {
+            "type": "string",
+            "nullable": true,
+            "description": "Vehicle registration number"
+          },
+          "grossValueInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Gross value in supply currency"
+          },
+          "netInvoiceValueInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net invoice value in issuer currency."
+          },
+          "vatInvoiceValueInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "VAT invoice value in issuer currency."
+          },
+          "netInvoiceValueInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net invoice value in invoice currency."
+          },
+          "netUnitListPriceInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net unit list price in supply currency"
+          },
+          "netUnitPumpPriceInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net unit pump price in supply currency"
+          },
+          "vatInvoiceValueInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "VAT invoice value in invoice currency."
+          },
+          "grossInvoiceValueInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Gross invoice value in issuer currency."
+          },
+          "grossInvoiceValueInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Gross invoice value in invoice currency."
+          },
+          "originalGrossValueInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Original gross value in issuer currency."
+          },
+          "originalGrossValueInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Original gross value in supply currency"
+          },
+          "grossUnrebatedValueInSupplyCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Gross unrebated value in supply currency"
+          },
+          "originalGrossValueInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Original gross value in invoice currency."
+          },
+          "grossUnrebatedInvoiceValueInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Gross unrebated invoice value in issuer currency."
+          },
+          "netInvoiceRebatedUnitPriceInIssuerCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net invoice rebated unit price in issuer currency."
+          },
+          "grossUnrebatedInvoiceValueInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net invoice unrebated invoice value in invoice currency."
+          },
+          "netInvoiceRebatedUnitPriceInInvoiceCurrency": {
+            "type": "string",
+            "nullable": true,
+            "description": "Net invoice rebated unit price in invoice currency."
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenApiTransactionsResponse": {
+        "type": "object",
+        "properties": {
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpenApiTransactionResponse"
+            },
+            "nullable": true,
+            "description": "Transaction records"
+          },
+          "numberOfRecords": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Nummber of records returned"
+          },
+          "moreTransactionsAvailable": {
+            "type": "boolean",
+            "description": "true if there are more transactions matching the request params"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')"
+      }
+    }
+  }
+}

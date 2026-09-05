@@ -1,0 +1,129 @@
+generated: '2026-09-04'
+method: derived
+status: candidate
+source: >-
+  Derived from the 14 operations of the six bp Open Fleet OpenAPI documents in openapi/.
+  No BP-operated MCP server exists.
+provider: BP
+providerId: bp
+description: >-
+  A CANDIDATE MCP tool surface derived from BP's published OpenAPI operations. BP does not ship
+  an MCP server. Nothing here is deployed, and no endpoint below is real.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+search_findings:
+  - checked: BP GitHub organisation (github.com/bp, 17 public repos)
+    result: no MCP server repository
+  - checked: npm / PyPI for a bp MCP package
+    result: none found
+  - checked: https://developer.fleet.bp.com/DE/apis
+    result: six REST products, no MCP product
+  - checked: https://api.developer.bp.com/docs/mcp-server
+    result: >-
+      IMPORTANT NEGATIVE. This URL is on a BP-owned host and returns HTTP 200 with a page titled
+      "MCP Server | Network as Code", but the content is NOT BP's. api.developer.bp.com is a
+      white-labelled RapidAPI Enterprise Hub, and its /docs tree serves another tenant's
+      documentation — Nokia's "Network as Code" CAMARA telco APIs (SIM swap, number verification,
+      device location, quality on demand). The page footer reads "@2025 Nokia all rights reserved"
+      and the surrounding bundle references https://mcp.prodeu.apihub.nokia.io. Attributing this
+      MCP server to BP would credit BP with an agent surface it does not operate, so it is
+      recorded here as a rejected candidate rather than a find.
+candidate_tools:
+  - tool: bp_fleet_get_access_token
+    rest: [POST /token]
+    api: Authentication
+    category: auth
+    description: Exchange client_id and client_secret for a bearer access token.
+    mutating: true
+  - tool: bp_fleet_list_cards
+    rest: [GET /cards]
+    api: Card Management
+    category: read
+    description: List fuel-card updates for the caller's accounts within a date window.
+    required_inputs: [PageSize, Page, StartDateTime, EndDateTime]
+    optional_inputs: [AuthorityIds, ParentIds, CardStatusId]
+  - tool: bp_fleet_list_invoices
+    rest: [GET /invoices]
+    api: Invoice Management
+    category: read
+    description: Search fleet invoices with cost breakdowns, payment status and due dates.
+    optional_inputs: [AuthorityIds, ParentIds, StartDateTime, EndDateTime, Page, PageSize]
+  - tool: bp_fleet_list_transactions
+    rest: [GET /transactions]
+    api: Transaction Management
+    category: read
+    description: Retrieve fleet fuel transactions with product, location, driver and tax detail.
+    optional_inputs: [AuthorityIds, ParentIds, StartDateTime, EndDateTime, Page, PageSize]
+  - tool: bp_fleet_list_sites
+    rest: [GET /sites]
+    api: Retail Site Information
+    category: read
+    description: List bp / Aral retail sites for a country with features, hours and EV availability.
+    required_inputs: [CountryCode]
+  - tool: bp_fleet_find_nearby_sites
+    rest: [GET /sites]
+    api: Aral AppConnect
+    category: read
+    description: Find bp / Aral stations within a radius of a coordinate.
+    required_inputs: [Lat, Lng, Radius]
+  - tool: bp_fleet_get_site
+    rest: ["GET /sites/{siteId}"]
+    api: Aral AppConnect
+    category: read
+    description: Retrieve one retail site with address, pumps, fuel grades and opening hours.
+    required_inputs: [siteId]
+  - tool: bp_fleet_start_fueling
+    rest: [POST /fueling]
+    api: Aral AppConnect
+    category: write
+    description: Authorize a fuelling session at a pump.
+    mutating: true
+    reversal: bp_fleet_cancel_fueling
+    caution: >-
+      Real-world money movement. No idempotency mechanism exists on this operation — a retried
+      call is a second authorization.
+  - tool: bp_fleet_get_fueling
+    rest: [GET /fueling]
+    api: Aral AppConnect
+    category: read
+    required_inputs: [X-Transaction-Id]
+  - tool: bp_fleet_cancel_fueling
+    rest: [PUT /fueling/cancel]
+    api: Aral AppConnect
+    category: write
+    description: Cancel a fuelling authorization.
+    mutating: true
+    required_inputs: [X-Transaction-Id]
+    caution: BP publishes no window inside which cancellation is valid.
+  - tool: bp_fleet_add_payment_method
+    rest: [POST /payment-method]
+    api: Aral AppConnect
+    category: write
+    mutating: true
+    reversal: bp_fleet_delete_payment_method
+  - tool: bp_fleet_delete_payment_method
+    rest: [DELETE /payment-method]
+    api: Aral AppConnect
+    category: write
+    mutating: true
+  - tool: bp_fleet_health_check
+    rest: [GET /health-check]
+    api: Retail Site Information, Aral AppConnect
+    category: ops
+agent_readiness_notes:
+  - >-
+    All six APIs are gated behind provisioned client credentials, so an agent cannot self-onboard.
+  - >-
+    No rate-limit response headers and no documented 429 mean an agent cannot back off on signal,
+    only on a published static ceiling (10/min on four of six products).
+  - >-
+    No idempotency on any of the five mutating operations, and one of them authorizes fuel
+    dispensing.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

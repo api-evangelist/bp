@@ -1,0 +1,388 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BP.B2BSemarchy.WebAPI",
+    "version": "1.0"
+  },
+  "paths": {
+    "/health-check": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/sites": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "parameters": [
+          {
+            "name": "CountryCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "minLength": 2,
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransformedSiteResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransformedSiteResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransformedSiteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter only the JWT token. Do not include the word 'Bearer'."
+      }
+    },
+    "schemas": {
+      "AvailabilitySchedule": {
+        "type": "object",
+        "properties": {
+          "mondayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "mondayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "tuesdayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "tuesdayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "wednesdayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "wednesdayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "thursdayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "thursdayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fridayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "fridayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "saturdayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "saturdayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "sundayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "sundayTo": {
+            "type": "string",
+            "nullable": true
+          },
+          "holidayFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "holidayTo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorDetailsEntity": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransformedSite": {
+        "type": "object",
+        "properties": {
+          "siteId": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteName": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteName2": {
+            "type": "string",
+            "nullable": true
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteType": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteTypeDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine2": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine3": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "houseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "regionCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "regionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "string",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "string",
+            "nullable": true
+          },
+          "retailChannelOfTrade": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "evChargingAvailable": {
+            "type": "boolean"
+          },
+          "recordModifiedDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordCreatedDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "workPhoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "retailSiteFeatures": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "retailSiteFoodShops": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "retailSiteOperatingHours": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AvailabilitySchedule"
+            },
+            "nullable": true
+          },
+          "retailSiteProducts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransformedSiteResponse": {
+        "type": "object",
+        "properties": {
+          "moreSitesAvailable": {
+            "type": "boolean"
+          },
+          "numberOfRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransformedSite"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

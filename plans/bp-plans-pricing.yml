@@ -4,140 +4,53 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: BP
 providerId: bp
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-04'
+generated: '2026-09-04'
+method: searched
+source: https://developer.fleet.bp.com/DE/apis
+note: >-
+  REPLACES a 2026-05-04 scaffold that invented three tiers (bp-free 1,000 req/month,
+  bp-pro 100,000 req/month, bp-enterprise) with invented quotas and TBD prices. BP publishes
+  none of that. This file now records the measured absence instead.
 tags:
   - Energy
   - Oil
   - Gas
-  - Renewables
-  - Developer Platform
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: bp-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the BP API surface. Intended for evaluation, prototyping, and low-volume
-      integrations. Real limits and pricing must be reconciled with the provider's published plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: BP API Marketplace
-  - id: bp-pro
-    name: Professional
-    type: paid
-    description: Production tier for BP. Provides higher quotas, priority support, and access to the broader
-      API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: BP API Marketplace
-  - id: bp-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for BP. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: BP API Marketplace
+  - Fleet
+description: >-
+  BP publishes no public plans, tiers or prices for either of its API surfaces. Access to the
+  bp Open Fleet APIs is granted to existing B2B fleet-card customers through an account
+  relationship, not purchased from a public pricing page.
+plan_count: 0
+plans: []
+access_model:
+  model: business-relationship
+  public_signup: false
+  detail: >-
+    The Open Fleet portal offers Sign up / Login, but the APIs are addressed to existing bp and
+    Aral fleet-card customers — the products are Card Management, Invoice Management and
+    Transaction Management over the caller's own fleet accounts. Credentials are provisioned per
+    environment through the portal rather than issued instantly on signup.
+evidence:
+  - url: https://developer.fleet.bp.com/DE/apis
+    status: 200
+    finding: >-
+      Six API products listed with descriptions, country availability and rate limits. No price,
+      tier, quota or billing field appears on any product entry.
+  - url: https://developer.fleet.bp.com/DE/pricing
+    status: 403
+    finding: No pricing route exists on the Open Fleet portal.
+  - url: https://api.developer.bp.com/hub/pricing
+    status: 200
+    finding: >-
+      Soft-404. Returns the same 152KB Next.js shell as https://api.developer.bp.com/hub/zzz-fake-99
+      — not a pricing page.
+  - url: https://api.developer.bp.com/hub
+    status: 200
+    finding: >-
+      The bp API Marketplace catalogue is behind a login; BP's own user guide states some APIs are
+      only visible after sign-in and that billing/subscription management lives inside the
+      authenticated dashboard.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

@@ -1,0 +1,70 @@
+# BP
+
+> BP (British Petroleum) is an integrated energy company operating in over 70 countries. It runs
+> two distinct API surfaces: the **bp Open Fleet** developer portal, which publishes six
+> machine-readable REST APIs for fleet-card customers, and the **bp API Marketplace**, a
+> white-labelled RapidAPI Enterprise Hub whose catalogue is behind a login.
+
+Generated 2026-09-04 by API Evangelist from BP's own published artifacts. Method: generated.
+This file is an independent third-party summary; it is not published by BP.
+
+## bp Open Fleet APIs
+
+Six APIs, 14 operations, all OpenAPI 3.0.1, all currently Operational. Base URL pattern:
+`https://api.fleet.bp.com/{apiPrefix}/v{version}/` (sandbox: `https://api.sandbox.fleet.bp.com/...`).
+All require an OAuth2 client-credentials bearer token. Access is for existing bp/Aral fleet-card
+customers — there is no public self-serve signup and no published pricing.
+
+- [Authentication](https://developer.fleet.bp.com/DE/apis/authentication): POST /token — exchange client_id + client_secret for a bearer token. Limit 10 req/min.
+- [Card Management](https://developer.fleet.bp.com/DE/apis/card-management): GET /cards — latest fuel-card updates. Limit 10 req/min. More endpoints stated as under development.
+- [Invoice Management](https://developer.fleet.bp.com/DE/apis/invoice-management): GET /invoices — invoices with cost breakdowns, payment status, due dates, discounts. Limit 10 req/min.
+- [Transaction Management](https://developer.fleet.bp.com/DE/apis/transaction-management): GET /transactions — fleet fuel transactions with product, location, driver, tax and invoicing status. Limit 10 req/min.
+- [Retail Site Information](https://developer.fleet.bp.com/DE/apis/retail-site-information-anz): GET /sites, GET /health-check — site address, features, opening hours, fuel and non-fuel products, EV charging availability. Limit 100 req/sec. No sandbox.
+- [Aral AppConnect (Pay@Pump)](https://developer.fleet.bp.com/DE/apis/aral-appconnect): GET /sites, GET /sites/{siteId}, POST /fueling, GET /fueling, PUT /fueling/cancel, POST /payment-method, DELETE /payment-method, GET /health-check — digital fuel authorization at bp/Aral pumps. Limit 100 req/sec. Germany only.
+
+## Authentication
+
+- Token endpoint: `POST https://api.fleet.bp.com/authentication/v1.0/token` (form: client_id, client_secret)
+- Resource calls: `Authorization: Bearer <access_token>`
+- Credentials are environment-bound — sandbox credentials do not work against production.
+- Portal sign-in uses OpenID Connect on BP's B2B identity host: [OIDC discovery](https://b2bid.bp.com/.well-known/openid-configuration) (ForgeRock AM, issuer `https://b2bid.bp.com/am/oauth2`). Supports PKCE S256, PAR, dynamic client registration, mTLS-bound tokens. Scopes: openid, profile, email, phone, b2b-profile, b2b-consent.
+
+## Conventions
+
+- Pagination: `Page`/`PageSize` on cards, invoices, transactions; lowercase `page`/`pageSize` on Retail Site Information.
+- Tracing: send `x-correlation-id` (or `X-Correlation-Id` on Aral AppConnect); responses echo `correlationId`.
+- Versioning: version is a path segment; Aral AppConnect also accepts an `api-version` header.
+- Errors: three provider-specific JSON envelopes. **Not** RFC 9457 problem+json.
+- Idempotency: **none**. Five mutating operations, no Idempotency-Key.
+- Reversibility: `PUT /fueling/cancel` reverses `POST /fueling`, and `DELETE /payment-method` reverses `POST /payment-method` — but **no time window is published for either**.
+- Rate limits: published per API product; **no** RateLimit-* response headers and **no** documented 429.
+
+## Documentation
+
+- [bp Open Fleet Developer Portal](https://developer.fleet.bp.com/)
+- [Open Fleet API catalogue](https://developer.fleet.bp.com/DE/apis)
+- [Getting started](https://developer.fleet.bp.com/DE/getting-started)
+- [API status](https://developer.fleet.bp.com/DE/api-status)
+- [Use cases](https://developer.fleet.bp.com/DE/use-cases)
+- [Support](https://developer.fleet.bp.com/DE/support)
+- [bp API Marketplace](https://developer.bp.com/hub) and [marketplace hub](https://api.developer.bp.com/hub)
+- [bp API Marketplace User Guide (PDF)](https://developer.bp.com/bp%20API%20Marketplace%20User%20Guide.pdf)
+
+## Security
+
+- [BP Responsible Disclosure](https://bp.responsibledisclosure.com/hc/en-us) — coordinated vulnerability disclosure, operated by Synack.
+- No `/.well-known/security.txt` is served on any BP host.
+
+## Open source
+
+- [github.com/bp](https://github.com/bp) — 17 public repositories.
+- [resqpy](https://pypi.org/project/resqpy/) 5.2.0 (2026-06-22) — Python API for RESQML subsurface models.
+- [ResSimpy](https://pypi.org/project/ResSimpy/) 2.6.1 (2026-07-07) — Python library for reservoir simulator models.
+- BP publishes **no client SDK** for any of its APIs.
+
+## Not BP
+
+`https://api.developer.bp.com/docs` is on a BP host but serves Nokia's "Network as Code" CAMARA
+telco documentation (SIM swap, number verification, device location) — a co-tenant bleed on the
+shared RapidAPI Enterprise Hub, footer "@2025 Nokia all rights reserved". It is not a BP API.
+Aker BP (`api.akerbp.com`) is a separate Norwegian company, not BP plc.

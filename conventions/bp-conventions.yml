@@ -1,0 +1,176 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from the six bp Open Fleet OpenAPI documents in openapi/, the OIDC discovery document
+  in well-known/, and the bp Open Fleet portal pages at https://developer.fleet.bp.com/DE/
+  (getting-started, api-status, support).
+provider: BP
+providerId: bp
+description: >-
+  Cross-cutting runtime semantics for the bp Open Fleet API platform — how a client authenticates,
+  pages, traces, versions, and reads errors across all six published APIs.
+auth:
+  style: bearer
+  detail: >-
+    Every resource API requires Authorization: Bearer <access_token>. The token comes from
+    POST /token on the Authentication API using client_id + client_secret (client credentials).
+    See authentication/bp-authentication.yml.
+  environment_bound: true
+versioning:
+  style: path-and-header
+  path: >-
+    The version is a path segment in the base URL: https://api.fleet.bp.com/{apiPrefix}/v{version}/
+    — e.g. /authentication/v1.0/. Published versions are 1.0, v1.0, v1 and 1 depending on product.
+  header:
+    name: api-version
+    in: header
+    required: false
+    applies_to: Aral AppConnect (Pay@Pump) — every operation accepts an api-version header.
+  breaking_change_policy: not published
+pagination:
+  style: page-number
+  detail: >-
+    Offset/limit style paging using an explicit page number and page size. Two casings are in
+    use across products, which is a real inconsistency for a client library.
+  variants:
+    - apis: [Card Management, Invoice Management, Transaction Management]
+      params:
+        page: Page
+        size: PageSize
+      required_on:
+        - "GET /cards (PageSize and Page are required)"
+      optional_on:
+        - GET /invoices
+        - GET /transactions
+    - apis: [Retail Site Information]
+      params:
+        page: page
+        size: pageSize
+      required: false
+  response_fields:
+    - name: numberOfRecords
+      note: Returned by Retail Site Information alongside the sites array.
+  cursor_support: false
+  filtering:
+    - name: AuthorityIds
+      note: Restricts results to named authorities; used by cards, invoices and transactions.
+    - name: ParentIds
+      note: Restricts results to parent accounts.
+    - name: StartDateTime / EndDateTime
+      note: Time window; required on GET /cards, optional on invoices and transactions.
+    - name: CardStatusId
+      note: Card Management only.
+    - name: CountryCode
+      note: Required on Retail Site Information GET /sites.
+    - name: Lat / Lng / Radius
+      note: Required geospatial filter on Aral AppConnect GET /sites.
+request_id_tracing:
+  supported: true
+  detail: >-
+    A correlation id is the platform-wide tracing convention and BP's support page asks for it
+    when reporting an error. Casing differs by product.
+  headers:
+    - name: x-correlation-id
+      format: uuid
+      apis: [Card Management, Invoice Management, Transaction Management]
+    - name: X-Correlation-Id
+      format: uuid
+      apis: [Aral AppConnect]
+    - name: X-Transaction-Id
+      required: true
+      apis: [Aral AppConnect]
+      note: Required on GET /fueling and PUT /fueling/cancel to identify the fuelling transaction.
+    - name: X-APP-Client
+      apis: [Aral AppConnect]
+  response_echo:
+    field: correlationId
+    note: The ResultEntity envelope returns correlationId (uuid) on FLEETCORE responses.
+error_envelope:
+  format: custom-json
+  rfc9457: false
+  detail: See errors/bp-problem-types.yml — three distinct envelopes across the platform.
+rate_limit_signaling:
+  documented_limits: true
+  response_headers: not published
+  exhaustion_status_code: not published
+  detail: >-
+    BP publishes a per-API rate limit on each product's catalogue entry, but publishes no
+    RateLimit-*/X-RateLimit-* response headers, no 429 response in any spec, and no Retry-After
+    guidance. An agent can read the limit in advance but cannot observe its remaining budget at
+    runtime. See rate-limits/bp-rate-limits.yml.
+field_expansion:
+  supported: false
+  note: No expand, fields or sparse-fieldset parameter is declared on any operation.
+metadata:
+  supported: false
+  note: No customer-defined metadata field is exposed on any resource.
+idempotency:
+  coverage: none
+  scope: []
+  detail: >-
+    No Idempotency-Key header, no idempotency token in any request body, and no idempotency
+    statement in the published documentation. Of the 14 published operations, five mutate state
+    (POST /token, POST /fueling, PUT /fueling/cancel, POST /payment-method, DELETE /payment-method)
+    and none of them offers replay protection. X-Transaction-Id identifies an existing fuelling
+    transaction for lookup and cancellation; it is not a client-supplied idempotency key on the
+    creating call.
+  retention: null
+reversibility:
+  grade: documented
+  detail: >-
+    A real reversal path exists on the fuelling flow and on payment-method registration, but BP
+    publishes no window inside which either works, so this grades as documented rather than
+    verified. The other five APIs are read-only.
+  write_surfaces:
+    - operation: POST /fueling
+      api: Aral AppConnect
+      description: Authorizes a fuelling session at a bp / Aral pump.
+      reversal:
+        operation: PUT /fueling/cancel
+        operationId: null
+        method: PUT
+        path: /fueling/cancel
+        requires: "X-Transaction-Id (header, required)"
+        window: not published
+        docs: https://developer.fleet.bp.com/DE/apis/aral-appconnect
+      note: >-
+        NEVER assume a cancellation window here. BP does not state whether cancel is valid only
+        before the nozzle is released, only before settlement, or for some period after. An agent
+        must treat the window as unknown.
+    - operation: POST /payment-method
+      api: Aral AppConnect
+      description: Registers a payment method (fuel card token) for a driver or vehicle.
+      reversal:
+        operation: DELETE /payment-method
+        method: DELETE
+        path: /payment-method
+        window: not published
+    - operation: POST /token
+      api: Authentication
+      description: Issues an access token.
+      reversal:
+        operation: null
+        note: >-
+          No revocation endpoint is published for Open Fleet API tokens. The b2bid.bp.com
+          authorization server exposes /am/oauth2/token/revoke, but that is the portal
+          sign-in issuer, not the Open Fleet token endpoint.
+        window: not applicable
+  read_only_apis:
+    - Card Management
+    - Invoice Management
+    - Transaction Management
+    - Retail Site Information
+dry_run_mode:
+  supported: false
+  substitute: >-
+    Not a dry run, but a full sandbox environment exists at https://api.sandbox.fleet.bp.com with
+    separate credentials — five of the six products are sandbox-enabled. See sandbox/bp-sandbox.yml.
+cross_references:
+  errors: errors/bp-problem-types.yml
+  lifecycle: lifecycle/bp-lifecycle.yml
+  authentication: authentication/bp-authentication.yml
+  rate_limits: rate-limits/bp-rate-limits.yml
+  sandbox: sandbox/bp-sandbox.yml
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

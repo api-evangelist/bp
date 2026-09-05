@@ -1,0 +1,1376 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Pay@Pump",
+    "description": "A micro service for Pay@Pump",
+    "version": "1"
+  },
+  "paths": {
+    "/fueling": {
+      "post": {
+        "tags": [
+          "Fueling"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Txo.InitiateFuelingRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Txo.InitiateFuelingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Txo.InitiateFuelingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Txo.InitiateFuelingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Txo.InitiateFuelingResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Txo.InitiateFuelingResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Txo.InitiateFuelingResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Fueling"
+        ],
+        "parameters": [
+          {
+            "name": "X-Transaction-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Events.GetEventsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Events.GetEventsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Events.GetEventsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fueling/cancel": {
+      "put": {
+        "tags": [
+          "Fueling"
+        ],
+        "parameters": [
+          {
+            "name": "X-Transaction-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health-check": {
+      "get": {
+        "tags": [
+          "HealthCheck"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/payment-method": {
+      "post": {
+        "tags": [
+          "PaymentMethod"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PaymentMethod"
+        ],
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites": {
+      "get": {
+        "tags": [
+          "SiteDiscovery"
+        ],
+        "parameters": [
+          {
+            "name": "Lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Lng",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Radius",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maximum": 16000,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sites/{siteId}": {
+      "get": {
+        "tags": [
+          "SiteDiscovery"
+        ],
+        "parameters": [
+          {
+            "name": "siteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "X-APP-Client",
+            "in": "header",
+            "description": "Determines the calling client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "description": "A guid to track the request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pol_service_api.Models.Common.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "System.Net.HttpStatusCode": {
+        "enum": [
+          100,
+          101,
+          102,
+          103,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          226,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          400,
+          401,
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410,
+          411,
+          412,
+          413,
+          414,
+          415,
+          416,
+          417,
+          421,
+          422,
+          423,
+          424,
+          426,
+          428,
+          429,
+          431,
+          451,
+          500,
+          501,
+          502,
+          503,
+          504,
+          505,
+          506,
+          507,
+          508,
+          510,
+          511
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "pol_service_api.Models.Common.ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Common.PolError"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Common.PolError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.Address": {
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "workPhoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "string",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.FuelGrade": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "fuelType": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.Location": {
+        "required": [
+          "lat",
+          "lng"
+        ],
+        "type": "object",
+        "properties": {
+          "lat": {
+            "maximum": 90,
+            "minimum": -90,
+            "type": "number",
+            "format": "double"
+          },
+          "lng": {
+            "maximum": 180,
+            "minimum": -180,
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.NearbySite": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Dsp.Address"
+          },
+          "distance": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteId": {
+            "type": "string",
+            "nullable": true
+          },
+          "retailSiteConfig": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Dsp.RetailSite"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.PumpConfig": {
+        "type": "object",
+        "properties": {
+          "pumpId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fuelGrades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Dsp.FuelGrade"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.RetailSite": {
+        "type": "object",
+        "properties": {
+          "siteName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "retailSiteBrand": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobileEnabled": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "retailSiteOperatingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Dsp.RetailSiteOperatingHour"
+            },
+            "nullable": true
+          },
+          "retailSiteFeatures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Dsp.RetailSiteFeature"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.RetailSiteFeature": {
+        "type": "object",
+        "properties": {
+          "featureName": {
+            "type": "string",
+            "nullable": true
+          },
+          "featureValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Dsp.RetailSiteOperatingHour": {
+        "type": "object",
+        "properties": {
+          "openingTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "closingTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "dayOfWeek": {
+            "type": "string",
+            "nullable": true
+          },
+          "site24Hours": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Events.CardDetails": {
+        "type": "object",
+        "properties": {
+          "cardType": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Events.PriceDetails": {
+        "type": "object",
+        "properties": {
+          "subTotal": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalTax": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAmount": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Events.ProductDetails": {
+        "type": "object",
+        "properties": {
+          "productPicked": {
+            "type": "string",
+            "nullable": true
+          },
+          "volumePicked": {
+            "type": "number",
+            "format": "double"
+          },
+          "unitMeasure": {
+            "type": "string",
+            "nullable": true
+          },
+          "pricePerUnit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Events.Receipt": {
+        "type": "object",
+        "properties": {
+          "siteId": {
+            "type": "string",
+            "nullable": true
+          },
+          "pumpId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiptNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "terminalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "authCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "odometer": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteAddress": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Events.SiteAddress"
+          },
+          "productDetails": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Events.ProductDetails"
+          },
+          "priceDetails": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Events.PriceDetails"
+          },
+          "cardDetails": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Events.CardDetails"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Events.SiteAddress": {
+        "type": "object",
+        "properties": {
+          "siteName": {
+            "type": "string",
+            "nullable": true
+          },
+          "street1": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Txo.VehicleTxo": {
+        "type": "object",
+        "properties": {
+          "odometer": {
+            "maximum": 999999,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "maxLength": 18,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z0-9]*$",
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleRegistration": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleCode": {
+            "maxLength": 4,
+            "minLength": 1,
+            "pattern": "^[0-9]*$",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Wallet.CreditCard": {
+        "required": [
+          "full_name",
+          "month",
+          "number",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "number": {
+            "maxLength": 19,
+            "minLength": 18,
+            "pattern": "^[0-9]*$",
+            "type": "string"
+          },
+          "month": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "year": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Wallet.Metadata": {
+        "required": [
+          "tpin"
+        ],
+        "type": "object",
+        "properties": {
+          "tpin": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Wallet.PostPaymentMethod": {
+        "required": [
+          "fuel_card",
+          "metadata"
+        ],
+        "type": "object",
+        "properties": {
+          "fuel_card": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Wallet.CreditCard"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Wallet.Metadata"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Models.Wallet.PostPaymentMethodResponse": {
+        "type": "object",
+        "properties": {
+          "entityId": {
+            "type": "string",
+            "nullable": true
+          },
+          "managementInfo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Request.Txo.InitiateFuelingRequest": {
+        "required": [
+          "entityId",
+          "locationInfo",
+          "printReciept",
+          "pumpId",
+          "siteId"
+        ],
+        "type": "object",
+        "properties": {
+          "locationInfo": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Dsp.Location"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Txo.VehicleTxo"
+          },
+          "siteId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "pumpId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "minimum": 5,
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "printReciept": {
+            "type": "boolean"
+          },
+          "entityId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Request.Wallet.DeletePaymentMethodRequest": {
+        "required": [
+          "entityId"
+        ],
+        "type": "object",
+        "properties": {
+          "entityId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Request.Wallet.PostPaymentMethodRequest": {
+        "required": [
+          "payment_method"
+        ],
+        "type": "object",
+        "properties": {
+          "payment_method": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethod"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Response.Dsp.GetNearbySitesResponse": {
+        "type": "object",
+        "properties": {
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Dsp.NearbySite"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Response.Dsp.GetSiteDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Dsp.Address"
+          },
+          "fuelPumps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Dsp.PumpConfig"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Response.Events.GetEventsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionReferenceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "deliveryNote": {
+            "$ref": "#/components/schemas/pol_service_api.Models.Events.Receipt"
+          },
+          "errorList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pol_service_api.Models.Common.PolError"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pol_service_api.Response.Txo.InitiateFuelingResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "pumpId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "preAuthorizedAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "allowedFuelTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "transactionId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}

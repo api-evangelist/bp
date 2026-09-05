@@ -1,0 +1,177 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from the components.schemas and shared id-reference fields of the six bp Open Fleet
+  OpenAPI documents in openapi/.
+provider: BP
+providerId: bp
+description: >-
+  Entity-relationship graph across the bp Open Fleet platform. The six APIs are separate
+  microservices with no $ref crossing a document boundary, but they are joined at runtime by a
+  small set of shared identifier fields — parentId, authorityId, siteId and transactionId — which
+  is what actually makes the platform composable.
+join_keys:
+  - field: parentId
+    description: Parent (holding) account. Present on cards, invoices and transactions.
+    appears_in: [CardApiResponse, OpenApiInvoiceResponse, OpenApiTransactionResponse]
+    also_a_filter: ParentIds query parameter on GET /cards, /invoices and /transactions.
+  - field: authorityId
+    description: Authority (billing/ownership unit) beneath a parent account.
+    appears_in: [CardApiResponse, OpenApiInvoiceResponse, OpenApiTransactionResponse]
+    also_a_filter: AuthorityIds query parameter on GET /cards, /invoices and /transactions.
+  - field: siteId
+    description: >-
+      Retail site identifier. This is the strongest cross-product key on the platform — it joins
+      a transaction to the physical bp / Aral station it happened at, and the same identifier
+      space is used by both site APIs and by the Pay@Pump fuelling flow.
+    appears_in: [TransformedSite, OpenApiTransactionResponse, "pol_service_api.Models.Dsp.NearbySite", "pol_service_api.Models.Events.Receipt", "pol_service_api.Request.Txo.InitiateFuelingRequest"]
+  - field: transactionId
+    description: Fuelling / payment transaction identifier.
+    appears_in: [OpenApiTransactionResponse, "pol_service_api.Models.Events.Receipt", "pol_service_api.Response.Txo.InitiateFuelingResponse"]
+    also_a_header: X-Transaction-Id on GET /fueling and PUT /fueling/cancel.
+  - field: correlationId
+    description: Per-request trace id echoed in the ResultEntity envelope; not a domain key.
+entities:
+  - name: Card
+    api: Card Management
+    schema: CardApiResponse
+    operation: GET /cards
+    property_count: 48
+    identifiers: [cardStatusId, parentId, authorityId, costCenterId, profileId, artObuId]
+  - name: Invoice
+    api: Invoice Management
+    schema: OpenApiInvoiceResponse
+    operation: GET /invoices
+    property_count: 29
+    identifiers: [invoiceId, parentId, authorityId, summaryStatementId]
+  - name: Transaction
+    api: Transaction Management
+    schema: OpenApiTransactionResponse
+    operation: GET /transactions
+    property_count: 77
+    identifiers: [transactionId, transactionUniqueId, siteId, parentId, authorityId, vehicleDriverCode, productCode]
+    note: The widest entity on the platform; the fleet-card transaction record.
+  - name: Site
+    api: Retail Site Information
+    schema: TransformedSite
+    operation: GET /sites
+    property_count: 27
+    identifiers: [siteId, countryCode, regionCode, postalCode]
+    children: [AvailabilitySchedule]
+  - name: NearbySite
+    api: Aral AppConnect
+    schema: pol_service_api.Models.Dsp.NearbySite
+    operation: GET /sites
+    identifiers: [siteId]
+    note: A geospatial projection of the same site concept, filtered by Lat/Lng/Radius.
+  - name: RetailSite (Pay@Pump)
+    api: Aral AppConnect
+    schema: pol_service_api.Models.Dsp.RetailSite
+    operation: GET /sites/{siteId}
+    children: [Address, Location, FuelGrade, PumpConfig, RetailSiteFeature, RetailSiteOperatingHour]
+  - name: FuelingSession
+    api: Aral AppConnect
+    schema: pol_service_api.Response.Txo.InitiateFuelingResponse
+    operation: POST /fueling
+    identifiers: [transactionId, pumpId]
+  - name: PaymentMethod
+    api: Aral AppConnect
+    schema: pol_service_api.Models.Wallet.PostPaymentMethodResponse
+    operation: POST /payment-method
+    identifiers: [entityId]
+    children: [CreditCard, Metadata]
+  - name: Receipt
+    api: Aral AppConnect
+    schema: pol_service_api.Models.Events.Receipt
+    property_count: 12
+    identifiers: [siteId, pumpId, transactionId, terminalId, authCode]
+    children: [CardDetails, PriceDetails, ProductDetails]
+  - name: AccessToken
+    api: Authentication
+    schema: OpenApiAuthenticationResponse
+    operation: POST /token
+relationships:
+  - from: Transaction
+    to: Site
+    type: belongs_to
+    via: siteId
+    confidence: high
+    note: Cross-API join — Transaction Management to Retail Site Information.
+  - from: Transaction
+    to: Card
+    type: belongs_to
+    via: parentId + authorityId
+    confidence: medium
+    note: >-
+      No cardId appears on OpenApiTransactionResponse, so a transaction is tied to a card only
+      indirectly through the shared account hierarchy plus card-detail fields on the transaction.
+  - from: Card
+    to: Authority
+    type: belongs_to
+    via: authorityId
+    confidence: high
+  - from: Authority
+    to: Parent
+    type: belongs_to
+    via: parentId
+    confidence: high
+  - from: Invoice
+    to: Authority
+    type: belongs_to
+    via: authorityId
+    confidence: high
+  - from: Invoice
+    to: Transaction
+    type: has_many
+    via: account hierarchy + date window
+    confidence: low
+    note: >-
+      Invoices carry cost breakdowns and transactions carry an invoicing status, but no
+      invoiceId appears on the transaction schema, so the link is not directly navigable.
+  - from: Card
+    to: TrackingIds
+    type: has_one
+    via: trackingIds
+    confidence: high
+  - from: Site
+    to: AvailabilitySchedule
+    type: has_many
+    via: $ref
+    confidence: high
+  - from: RetailSite
+    to: PumpConfig
+    type: has_many
+    via: $ref
+    confidence: high
+  - from: RetailSite
+    to: FuelGrade
+    type: has_many
+    via: $ref
+    confidence: high
+  - from: FuelingSession
+    to: RetailSite
+    type: belongs_to
+    via: siteId
+    confidence: high
+  - from: FuelingSession
+    to: PaymentMethod
+    type: belongs_to
+    via: entityId
+    confidence: high
+  - from: Receipt
+    to: FuelingSession
+    type: belongs_to
+    via: transactionId
+    confidence: high
+id_prefixes:
+  published: false
+  note: BP publishes no id-prefix scheme; identifiers are opaque strings and uuids.
+gaps:
+  - No $ref crosses a document boundary — each API ships its own copy of ErrorDetailsEntity and ResultEntity.
+  - >-
+    Card Management defines UpdateCard, UpdateCardResponse and UpdateCardsResponse in components
+    but exposes no write operation, matching BP's stated note that further endpoints are still
+    under development.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

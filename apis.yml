@@ -2,11 +2,16 @@ aid: bp
 url: https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml
 name: BP
 tags:
-  - Energy
-  - Oil
-  - Gas
-  - Renewables
-  - Developer Platform
+- Energy
+- Oil
+- Gas
+- Renewables
+- Developer Platform
+- Fleet
+- Fuel Cards
+- Mobility
+- Retail Fuel
+- EV Charging
 type: Index
 kind: company
 deliveryModel:
@@ -21,88 +26,301 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 accessModel:
-  pricing: freemium
-  onboarding: unknown
+  pricing: custom
+  onboarding: request
   trial: false
   try_now: false
   public: false
-  label: Freemium
-  confidence: medium
+  label: Custom / business relationship — no public plans or pricing published
+  confidence: high
   source:
   - plans
-  generated: '2026-07-22'
-  method: derived
+  - https://developer.fleet.bp.com/DE/apis
+  generated: '2026-09-04'
+  method: searched
+  note: 'Corrects a 2026-07-22 derived value of "freemium". BP publishes no plans, tiers or prices on
+    either API surface; Open Fleet credentials are provisioned per environment to existing bp/Aral fleet-card
+    customers and the bp API Marketplace catalogue sits behind a login. See plans/bp-plans-pricing.yml
+    (plan_count: 0).'
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bp.png
 access: 3rd-Party
 created: '2025-03-01'
-modified: '2026-04-21'
+modified: '2026-09-04'
 position: Consuming
-description: >-
-  BP (British Petroleum) is one of the world's largest integrated energy companies,
-  operating in over 70 countries across oil and gas exploration, production, refining,
-  distribution, marketing, petrochemicals, power generation, and renewable energy.
-  BP operates an API Marketplace developer portal (developer.bp.com) enabling
-  seamless integration with BP's digital services, providing API discovery, testing
-  playgrounds, documentation, and billing management for energy sector integrations.
+description: BP (British Petroleum) is one of the world's largest integrated energy companies, operating
+  in over 70 countries across oil and gas exploration, production, refining, distribution, marketing,
+  petrochemicals, power generation and renewable energy. BP runs two distinct public API surfaces. The
+  bp Open Fleet Developer Portal (developer.fleet.bp.com) publishes six machine-readable OpenAPI 3.0.1
+  contracts covering fleet-card management, invoicing, fuel transactions, retail site information and
+  Aral AppConnect pay-at-pump authorization, secured with OAuth2 client credentials against api.fleet.bp.com
+  and a matching sandbox. The bp API Marketplace (developer.bp.com) is a white-labelled RapidAPI Enterprise
+  Hub whose catalogue sits behind a login. Access to both is aimed at existing B2B fleet and mobility
+  customers rather than public self-serve signup.
 apis:
-  - aid: bp:bp-api-marketplace
-    name: BP API Marketplace
-    tags:
-      - Energy
-      - Oil
-      - Gas
-      - Developer Platform
-    humanURL: https://developer.bp.com/hub
-    properties:
-      - url: https://developer.bp.com/hub
-        type: Portal
-    description: >-
-      The BP API Marketplace is a developer portal providing access to BP's digital
-      APIs and services. Features include API discovery and browsing, a testing
-      playground, documentation and tutorials, API specifications, usage monitoring,
-      error and latency tracking, and billing management for API subscriptions.
-common:
-  - type: DomainSecurity
-    url: security/bp-domain-security.yml
-  - type: GitHubOrganization
-    url: https://github.com/bp
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/bp
-  - type: Website
-    url: https://www.bp.com
-  - type: DeveloperPortal
+- aid: bp:bp-api-marketplace
+  name: BP API Marketplace
+  tags:
+  - Energy
+  - Oil
+  - Gas
+  - Developer Platform
+  humanURL: https://developer.bp.com/hub
+  properties:
+  - type: Portal
     url: https://developer.bp.com/hub
-  - type: InvestorRelations
-    url: https://www.bp.com/en/global/corporate/investors.html
-  - type: Sustainability
-    url: https://www.bp.com/en/global/corporate/sustainability.html
+  - type: Documentation
+    url: https://developer.bp.com/bp%20API%20Marketplace%20User%20Guide.pdf
+  - type: Login
+    url: https://api.developer.bp.com/auth
+  description: 'The bp API Marketplace is a white-labelled RapidAPI Enterprise Hub developer portal for
+    BP''s digital APIs. It provides API discovery, a testing playground, documentation, usage monitoring,
+    error and latency tracking, and billing and subscription management. The catalogue itself requires
+    a BP Developer Account: BP''s own user guide states some APIs are only visible after sign-in. No machine-readable
+    contract was reachable anonymously.'
+- aid: bp:bp-fleet-authentication
+  name: bp Open Fleet Authentication API
+  tags:
+  - Energy
+  - Fleet
+  - Authentication
+  - OAuth
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/authentication
+  baseURL: https://api.fleet.bp.com/authentication/v1.0/
+  description: 'Token endpoint for the bp Open Fleet platform. POST /token exchanges a client_id and client_secret
+    for a bearer access_token used by every other Open Fleet API. Credentials are bound to a single environment:
+    sandbox credentials only reach sandbox endpoints. Published rate limit 10 requests per minute, the
+    tightest on the platform, so tokens must be cached and reused.'
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-authentication-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-authentication-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/authentication
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+- aid: bp:bp-fleet-card-management
+  name: bp Open Fleet Card Management API
+  tags:
+  - Energy
+  - Fleet
+  - Fuel Cards
+  - Cards
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/card-management
+  baseURL: https://api.fleet.bp.com/{apiPrefix}/v1/
+  description: Fuel-card management for bp and Aral fleet customers. Currently exposes a single read operation,
+    GET /cards, returning the latest card updates filtered by authority, parent account, card status and
+    a required date window. BP states further endpoints are under development. Available in AT, BE, DE,
+    LU, NL, PL, PT, ES and UK. Published rate limit 10 requests per minute.
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-card-management-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-card-management-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/card-management
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+- aid: bp:bp-fleet-invoice-management
+  name: bp Open Fleet Invoice Management API
+  tags:
+  - Energy
+  - Fleet
+  - Invoicing
+  - Billing
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/invoice-management
+  baseURL: https://api.fleet.bp.com/{apiPrefix}/v1.0/
+  description: Real-time access to fleet invoice data. GET /invoices retrieves and searches invoices with
+    cost breakdowns, payment statuses, due dates and applicable discounts, filtered by authority, parent
+    account and date window. Available in AT, BE, DE, LU, NL, PL, PT, ES and UK. Published rate limit
+    10 requests per minute.
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-invoice-management-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-invoice-management-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/invoice-management
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+- aid: bp:bp-fleet-transaction-management
+  name: bp Open Fleet Transaction Management API
+  tags:
+  - Energy
+  - Fleet
+  - Transactions
+  - Fuel Cards
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/transaction-management
+  baseURL: https://api.fleet.bp.com/{apiPrefix}/v1.0/
+  description: Direct access to fleet fuel transaction data. GET /transactions returns full transaction
+    detail including product breakdowns, site location, driver and vehicle information, discounts, taxes
+    and invoicing status, searchable by vehicle registration, cardholder, invoice number, country and
+    date. The widest entity on the platform at 77 response properties. Available in AT, BE, DE, LU, NL,
+    PL, PT, ES and UK. Published rate limit 10 requests per minute.
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-transaction-management-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-transaction-management-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/transaction-management
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+- aid: bp:bp-fleet-retail-site-information
+  name: bp Open Fleet Retail Site Information API
+  tags:
+  - Energy
+  - Retail Fuel
+  - Sites
+  - Location
+  - EV Charging
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
+  baseURL: https://api.fleet.bp.com/{apiPrefix}/v1.0/
+  description: Comprehensive bp and Aral retail site data. GET /sites returns address, contact details,
+    retail site features such as ATM and car wash, operating hours and holiday schedules, site amenities,
+    fuel and non-fuel products, and EV charging availability, filtered by a required CountryCode. The
+    only Open Fleet product with no sandbox environment. Published rate limit 100 requests per second.
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-retail-site-information-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-retail-site-information-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+- aid: bp:bp-fleet-aral-appconnect
+  name: bp Open Fleet Aral AppConnect (Pay@Pump) API
+  tags:
+  - Energy
+  - Retail Fuel
+  - Payments
+  - Mobility
+  - Fleet
+  - Developer Platform
+  humanURL: https://developer.fleet.bp.com/DE/apis/aral-appconnect
+  baseURL: https://api.fleet.bp.com/{apiPrefix}/v1/
+  description: Digital fuel authorization at bp and Aral stations. Drivers authorize a fuel card directly
+    from the vehicle, avoiding the till; the card is linked to a driver, vehicle or onboard computer and
+    only the appropriate nozzle is released. Eight operations cover site search by coordinate and radius,
+    site detail, payment-method registration and removal, and starting, checking and cancelling a fuelling
+    session. Authorizations are tokenized and validated against existing fuel card controls including
+    velocity limits and site restrictions. The only write surface on the platform, and it has no idempotency
+    mechanism. Germany only. Published rate limit 100 requests per second.
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-fleet-aral-appconnect-openapi.json
+  - type: Overlay
+    url: overlays/bp-fleet-aral-appconnect-overlay.yaml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+common:
+- type: DomainSecurity
+  url: security/bp-domain-security.yml
+- type: GitHubOrganization
+  url: https://github.com/bp
+- type: LinkedIn
+  url: https://www.linkedin.com/company/bp
+- type: Website
+  url: https://www.bp.com
+- type: DeveloperPortal
+  url: https://developer.bp.com/hub
+- type: InvestorRelations
+  url: https://www.bp.com/en/global/corporate/investors.html
+- type: Sustainability
+  url: https://www.bp.com/en/global/corporate/sustainability.html
+- type: Portal
+  url: https://developer.fleet.bp.com/
+- type: APIReference
+  url: https://developer.fleet.bp.com/DE/apis
+- type: GettingStarted
+  url: https://developer.fleet.bp.com/DE/getting-started
+- type: Documentation
+  url: https://developer.bp.com/bp%20API%20Marketplace%20User%20Guide.pdf
+- type: Support
+  url: https://developer.fleet.bp.com/DE/support
+- type: StatusPage
+  url: https://developer.fleet.bp.com/DE/api-status
+- type: Login
+  url: https://api.developer.bp.com/auth
+- type: TermsOfService
+  url: https://www.bp.com/legal-notice
+- type: PrivacyPolicy
+  url: https://www.bp.com/en/global/privacy/global-products-and-services-notices.html
+- type: Security
+  url: https://bp.responsibledisclosure.com/hc/en-us
+- type: VulnerabilityDisclosure
+  url: security/bp-vulnerability-disclosure.yml
+- type: WellKnown
+  url: well-known/bp-well-known.yml
+- type: Authentication
+  url: authentication/bp-authentication.yml
+- type: OAuthScopes
+  url: scopes/bp-scopes.yml
+- type: ErrorCatalog
+  url: errors/bp-problem-types.yml
+- type: Conventions
+  url: conventions/bp-conventions.yml
+- type: Lifecycle
+  url: lifecycle/bp-lifecycle.yml
+- type: Conformance
+  url: conformance/bp-conformance.yml
+- type: Sandbox
+  url: sandbox/bp-sandbox.yml
+- type: DataModel
+  url: data-model/bp-data-model.yml
+- type: Packages
+  url: packages/bp-packages.yml
+- type: LLMsTxt
+  url: llms/bp-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/bp-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/bp-rate-limits.yml
+- type: FinOps
+  url: finops/bp-finops.yml
+- type: X-MCPServerCandidate
+  url: mcp/bp-mcp.yml
+- type: RAML
+  url: raml/bp-anypoint-statistics-service.raml
 properties:
-  - type: x-domain
-    value: bp.com
-  - type: x-founded
-    value: '1909'
-  - type: x-headquarters
-    value: London, United Kingdom
-  - type: x-stock-ticker
-    value: BP
-  - type: x-stock-exchange
-    value: NYSE, LSE
-  - type: x-industry
-    value: Integrated Energy, Oil and Gas
-  - type: x-sic-code
-    value: '2911'
-  - type: x-operations
-    value: 70+ countries
-  - type: x-developer-portal-features
-    value: >-
-      API discovery, API testing playground, documentation, API specifications,
-      developer dashboard, usage monitoring, error tracking, latency monitoring,
-      billing management, subscription management
-  - type: x-capabilities
-    value: >-
-      Energy data integration, supply chain APIs, logistics APIs, trading APIs,
-      retail fuel network APIs, EV charging APIs, carbon management
+- type: x-domain
+  value: bp.com
+- type: x-founded
+  value: '1909'
+- type: x-headquarters
+  value: London, United Kingdom
+- type: x-stock-ticker
+  value: BP
+- type: x-stock-exchange
+  value: NYSE, LSE
+- type: x-industry
+  value: Integrated Energy, Oil and Gas
+- type: x-sic-code
+  value: '2911'
+- type: x-operations
+  value: 70+ countries
+- type: x-developer-portal-features
+  value: API discovery, API testing playground, documentation, API specifications, developer dashboard,
+    usage monitoring, error tracking, latency monitoring, billing management, subscription management
+- type: x-capabilities
+  value: Energy data integration, supply chain APIs, logistics APIs, trading APIs, retail fuel network
+    APIs, EV charging APIs, carbon management
 maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
+- FN: Kin Lane
+  email: info@apievangelist.com
 specificationVersion: '0.23'
+x-enrichment:
+  date: '2026-09-04'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v3

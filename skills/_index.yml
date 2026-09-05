@@ -1,0 +1,38 @@
+generated: '2026-09-04'
+method: generated
+source: >-
+  Generated from the six bp Open Fleet OpenAPI documents in openapi/ and the conventions,
+  errors, rate-limits and sandbox artifacts in this repository. Every operation named in these
+  skills is present in a published BP contract; none is invented.
+provider: BP
+providerId: bp
+note: >-
+  BP publishes no AGENTS.md and no first-party agent skills. These are API Evangelist-authored
+  packaged skills grounded in BP's real operations.
+skills:
+  - name: bp-fleet-authenticate
+    file: bp-fleet-authenticate.md
+    api: Authentication
+    operations: [POST /token]
+    surface: auth
+  - name: bp-fleet-reconcile-fleet-spend
+    file: bp-fleet-reconcile-fleet-spend.md
+    api: Transaction Management, Invoice Management, Card Management
+    operations: [GET /transactions, GET /invoices, GET /cards]
+    surface: read-only
+  - name: bp-fleet-fuel-at-pump
+    file: bp-fleet-fuel-at-pump.md
+    api: Aral AppConnect (Pay@Pump)
+    operations:
+      - GET /sites
+      - GET /sites/{siteId}
+      - POST /payment-method
+      - POST /fueling
+      - GET /fueling
+      - PUT /fueling/cancel
+      - DELETE /payment-method
+    surface: write
+    caution: Authorizes fuel dispensing; no idempotency and no published cancellation window.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,66 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://developer.fleet.bp.com/DE/api-status (sandboxAccess flag published per API product) and
+  the bp Open Fleet portal's own environment switcher, which builds
+  https://api.sandbox.fleet.bp.com/{apiPrefix}/v{version}/ for the SANDBOX environment.
+provider: BP
+providerId: bp
+description: >-
+  bp Open Fleet ships a real, separately-hosted sandbox environment with its own credentials.
+  It is an isolated environment, not a test mode toggled by a key prefix.
+environments:
+  - name: Production
+    base_url_template: https://api.fleet.bp.com/{apiPrefix}/v{version}/
+    host: api.fleet.bp.com
+  - name: Sandbox
+    base_url_template: https://api.sandbox.fleet.bp.com/{apiPrefix}/v{version}/
+    host: api.sandbox.fleet.bp.com
+credential_model:
+  separation: strict
+  detail: >-
+    Published verbatim by BP on the Authentication API: "Please note that credentials are set for
+    a specific environment. Sandbox credentials can only access the sandbox authentication and api
+    products endpoints. Production credentials can only do so against production endpoints."
+  key_prefixes: none published
+  distinguishing_field: >-
+    Nothing in the credential itself marks the environment; the client_id/client_secret pair is
+    simply issued against one environment. A caller cannot tell from the credential alone.
+sandbox_coverage:
+  - api: Authentication
+    product_code: FLEET_AUTHENTICATION_1.0
+    sandbox_access: true
+  - api: Card Management
+    product_code: FLEET_CARD_MANAGEMENT_1.0
+    sandbox_access: true
+  - api: Invoice Management
+    product_code: FLEET_INVOICE_MANAGEMENT_1.0
+    sandbox_access: true
+  - api: Transaction Management
+    product_code: FLEET_TRANSACTION_MANAGEMENT_1.0
+    sandbox_access: true
+  - api: Aral AppConnect (Pay@Pump)
+    product_code: FLEETPAYATPUMT_1.0
+    sandbox_access: true
+  - api: Retail Site Information
+    product_code: FLEETCORE-SITE_1.0
+    sandbox_access: false
+    note: The only product BP marks as production-only; there is no sandbox for site data.
+test_data:
+  test_cards: not published
+  test_accounts: not published
+  fixtures: not published
+  time_simulation: not published
+  note: >-
+    BP publishes no test fuel-card numbers, test sites, seeded transactions or clock controls.
+    Sandbox access requires provisioned credentials obtained through the portal, so the sandbox is
+    reachable only after onboarding — it is not an anonymous try-it environment.
+try_it_console:
+  present: true
+  detail: >-
+    The portal embeds Swagger UI with an environment switcher, but its own code hides the
+    "Try it out" button, the curl command and the request URL unless the signed-in user holds
+    provisioned credentials.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

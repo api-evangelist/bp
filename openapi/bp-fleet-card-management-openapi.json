@@ -1,0 +1,517 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "bp_fleet_msvc_cards_openapi",
+    "version": "v1"
+  },
+  "paths": {
+    "/cards": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "parameters": [
+          {
+            "name": "AuthorityIds",
+            "in": "query",
+            "description": "Only search cards with matching authorityIds. Multiple authorities can be added using a comma-separated list, <br>e.g., authorityIds=A123,authorityIds=A345,...",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ParentIds",
+            "in": "query",
+            "description": "Only search cards with matching parentIds. Multiple parentIds can be added using a comma-separated list,<br> e.g., parentIds=A123,parentIds=A345,...",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Max results to return. Must be between 1 and 1000.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Page Number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "StartDateTime",
+            "in": "query",
+            "description": "Start date time for search (record modified date). Must be within 90 days of EndDateTime. <br>Format: yyyy-MM-ddTHH:mm:ssZ (e.g., 2024-11-28T11:54:00Z)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "EndDateTime",
+            "in": "query",
+            "description": "End date time for search (record modified date). Must be within 90 days of StartDateTime.<br> Format: yyyy-MM-ddTHH:mm:ssZ (e.g., 2025-02-28T11:54:00Z)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "CardStatusId",
+            "in": "query",
+            "description": "$22",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenApiCardResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenApiCardResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenApiCardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultEntity"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultEntity"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultEntity"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetailsEntity"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CardApiResponse": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorityId": {
+            "type": "string",
+            "nullable": true
+          },
+          "costCentreName": {
+            "type": "string",
+            "nullable": true
+          },
+          "subCostCentreName": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondSortLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "costCenterId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cardSerialNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fullCardNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "prevCardSerialNo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "replaceCardSerialNo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "issuerNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "embossingLineOne": {
+            "type": "string",
+            "nullable": true
+          },
+          "embossingLineTwo": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleRegistrationNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardHolderName": {
+            "type": "string",
+            "nullable": true
+          },
+          "embossedServiceCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardIssueDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardExpiryDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "internationUse": {
+            "type": "string",
+            "nullable": true
+          },
+          "sendTo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardStatusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardStatusDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardPrevStatusId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastCardTransDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordCreatedDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordModifiedDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "informationRequirement": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "austrianRoadToll": {
+            "type": "string",
+            "nullable": true
+          },
+          "artObuId": {
+            "type": "string",
+            "nullable": true
+          },
+          "artVehicleReg": {
+            "type": "string",
+            "nullable": true
+          },
+          "gasoleoProfesional": {
+            "type": "string",
+            "nullable": true
+          },
+          "gasoleoProfesionalStartDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "gasoleoProfesionalEndDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "ppdScheme": {
+            "type": "string",
+            "nullable": true
+          },
+          "ppdSchemeStartDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "ppdSchemeEndDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileId": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinDerivation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pinReq": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bpMeEnabled": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardProvisioned": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastVirtualTransDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "virtualCardStatusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "virtualCardStatusDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardPlasticOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardProgramName": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetNeutral": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorDetailsEntity": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OpenApiCardResponse": {
+        "type": "object",
+        "properties": {
+          "moreCardsAvailable": {
+            "type": "boolean"
+          },
+          "numberOfRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CardApiResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResultEntity": {
+        "type": "object",
+        "properties": {
+          "correlationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorDetails": {
+            "$ref": "#/components/schemas/ErrorDetailsEntity"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrackingIds": {
+        "type": "object",
+        "properties": {
+          "statusTrackingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinTrackingId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCard": {
+        "type": "object",
+        "properties": {
+          "fullCardNumber": {
+            "type": "string",
+            "description": "Card number to update.",
+            "nullable": true
+          },
+          "operation": {
+            "type": "string",
+            "description": "Enter Operation type that you want to perform on Card, either STOPCARD or PINCHANGE",
+            "default": "STOPCARD/PINCHANGE",
+            "nullable": true
+          },
+          "pin": {
+            "type": "string",
+            "description": "New PIN to set for the card (if updating PIN).",
+            "default": "",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "Card status to update. Allowed values:\r\n</br>\r\n\"STOLEN\",\r\n</br>\r\n\"LOST\",\r\n</br>\r\n\"DESTROYED\".\r\n</br>\r\nAny other value will set status to 0.\r\n</br>",
+            "default": "LOST/STOLEN/DESTROYED",
+            "nullable": true
+          },
+          "stopMobileUse": {
+            "type": "boolean",
+            "description": "if passed true then virtual card will be stopped immediately.\r\n</br>\r\nif false then virtual card will be stopped after 2 months.\r\n</br>       \r\nDefault value is true. that means stop immediately\r\n</br>",
+            "default": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCardResponse": {
+        "type": "object",
+        "properties": {
+          "fullCardNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "trackingIds": {
+            "$ref": "#/components/schemas/TrackingIds"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCardsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateCardResponse"
+            },
+            "nullable": true
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateCardResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}

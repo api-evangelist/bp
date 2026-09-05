@@ -1,0 +1,135 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  Derived from the 4xx/5xx responses and error schemas of the six bp Open Fleet OpenAPI
+  documents in openapi/, plus one live anonymous probe of https://api.fleet.bp.com/ and
+  https://api.sandbox.fleet.bp.com/ which returned the gateway envelope verbatim.
+provider: BP
+providerId: bp
+format: custom-json
+rfc9457: false
+rfc9457_note: >-
+  BP does not use application/problem+json. No response in any of the six specs declares that
+  media type; errors are plain application/json objects in one of three provider-specific
+  envelopes described below.
+envelopes:
+  - id: gateway-errors-array
+    description: >-
+      Returned by the API gateway itself, ahead of any product. Confirmed live: an unauthenticated
+      GET of https://api.fleet.bp.com/ returns HTTP 403 with this body.
+    schema: pol_service_api.Models.Common.ErrorResponse
+    shape:
+      errors:
+        - errorCode: integer or string
+          errorMessage: string
+    observed_example: '{"errors":[{"errorCode":403,"errorMessage":"Forbidden"}]}'
+    used_by:
+      - Aral AppConnect (Pay@Pump)
+      - gateway (api.fleet.bp.com, api.sandbox.fleet.bp.com)
+  - id: result-entity
+    description: >-
+      Envelope used by the FLEETCORE data products. Carries a correlationId that matches the
+      x-correlation-id request header, which is the identifier BP support asks for.
+    schema: ResultEntity
+    shape:
+      success: boolean
+      message: string
+      correlationId: string (uuid)
+      errorDetails:
+        errorCode: integer (int32)
+        errorMessage: string
+    used_by:
+      - Card Management
+      - Invoice Management
+      - Transaction Management
+      - Retail Site Information
+  - id: oauth-error-result
+    description: >-
+      Token endpoint error envelope. Follows OAuth 2.0 error naming (error, error_description,
+      error_uri) and adds BP tracing fields.
+    schema: ErrorResultEntity
+    shape:
+      error: string
+      error_description: string
+      error_uri: string
+      error_codes: array of integer
+      correlation_id: string
+      trace_id: string
+      timestamp: string
+    used_by:
+      - Authentication
+problem_types:
+  - status: 400
+    title: Bad Request
+    envelope: result-entity
+    operations:
+      - GET /cards
+      - GET /invoices
+      - GET /transactions
+      - GET /sites
+    remediation: >-
+      Validate required query parameters before sending. Card Management requires PageSize, Page,
+      StartDateTime and EndDateTime; Retail Site Information requires CountryCode; Aral AppConnect
+      /sites requires Lat, Lng and Radius.
+  - status: 401
+    title: Invalid client secret
+    envelope: oauth-error-result
+    operations:
+      - POST /token
+    remediation: >-
+      The client_secret is wrong for this client_id, or belongs to the other environment.
+      Sandbox credentials are only valid against api.sandbox.fleet.bp.com.
+  - status: 403
+    title: Invalid client id
+    envelope: oauth-error-result
+    operations:
+      - POST /token
+    remediation: >-
+      The client_id is not recognised in this environment. Request a client via the developer
+      portal for the environment you are calling.
+  - status: 403
+    title: Forbidden
+    envelope: gateway-errors-array
+    operations:
+      - any (gateway-level)
+    observed: true
+    remediation: >-
+      No valid bearer token was presented to the gateway. Obtain one from POST /token and send it
+      as Authorization: Bearer <access_token>.
+  - status: 404
+    title: Not Found
+    envelope: result-entity
+    operations:
+      - GET /sites
+    remediation: No retail site matched the supplied CountryCode / paging window.
+  - status: 500
+    title: Internal Server Error
+    envelope: result-entity or gateway-errors-array
+    operations:
+      - GET /cards
+      - GET /invoices
+      - GET /transactions
+      - GET /sites
+      - GET /sites/{siteId}
+      - POST /fueling
+      - GET /fueling
+      - PUT /fueling/cancel
+      - POST /payment-method
+      - DELETE /payment-method
+    remediation: >-
+      Retry with backoff. Capture the correlationId (or the x-correlation-id you sent) — BP's
+      support page asks for the correlation id when reporting an API error.
+gaps:
+  - >-
+    No 429 response is declared anywhere in the six specs, even though BP publishes per-API rate
+    limits (see rate-limits/bp-rate-limits.yml). The throttling status code and any Retry-After
+    behaviour are undocumented.
+  - >-
+    Aral AppConnect declares only 200 and 500 on every operation — no 400, 401, 403 or 404 —
+    so client-side validation failures have no documented shape on that product.
+  - >-
+    No machine-readable error-code registry is published; errorCode values are typed (integer or
+    string) but never enumerated.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

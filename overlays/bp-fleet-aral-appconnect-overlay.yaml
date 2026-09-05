@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: BP Aral AppConnect (Pay@Pump) — API Evangelist enhancements
+  version: 1.0.0
+extends: ../openapi/bp-fleet-aral-appconnect-openapi.json
+x-generated: '2026-09-04'
+x-method: generated
+x-source: Base URLs recovered from the bp Open Fleet portal's own environment switcher, which composes
+  https://api.fleet.bp.com/{apiPrefix}/v{version}/ and the sandbox equivalent. The published spec ships
+  no servers[] block at all.
+actions:
+- target: $
+  description: Add the servers[] block the published contract omits. Only the authentication prefix is
+    publicly confirmed (the portal's own code compares the path segments against the literals "authentication"
+    and "v1.0"); every other apiPrefix is supplied by the portal after sign-in and is left templated rather
+    than guessed.
+  update:
+    servers:
+    - url: https://api.fleet.bp.com/{apiPrefix}/v1/
+      description: Production
+    - url: https://api.sandbox.fleet.bp.com/{apiPrefix}/v1/
+      description: Sandbox
+- target: $.info
+  description: Record the bp Open Fleet product identity this contract belongs to.
+  update:
+    x-bp-product-code: FLEETPAYATPUMT_1.0
+    x-bp-api-name: Aral AppConnect (Pay@Pump)
+    x-bp-portal: https://developer.fleet.bp.com/DE/apis
+    x-bp-sandbox-access: true
