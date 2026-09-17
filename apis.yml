@@ -126,30 +126,6 @@ apis:
     url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
   - type: APIReference
     url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
-- aid: bp:bp-healthcheck-api
-  name: BP Health Check API
-  description: The HealthCheck API from BP — 1 operation(s) for healthcheck.
-  humanURL: https://developer.bp.com/hub
-  baseURL: https://api.fleet.bp.com/authentication/v1.0/
-  tags:
-  - HealthCheck
-  properties:
-  - type: OpenAPI
-    url: openapi/bp-healthcheck-api-openapi.yml
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/authentication
-  - type: Documentation
-    url: https://developer.fleet.bp.com/DE/getting-started
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/card-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/invoice-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/transaction-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
 - aid: bp:bp-openapiinvoices-api
   name: BP Open API Invoices API
   description: The OpenApiInvoices API from BP — 1 operation(s) for openapiinvoices.
@@ -198,30 +174,6 @@ apis:
     url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
   - type: APIReference
     url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
-- aid: bp:bp-paymentmethod-api
-  name: BP Payment Method API
-  description: The PaymentMethod API from BP — 1 operation(s) for paymentmethod.
-  humanURL: https://developer.bp.com/hub
-  baseURL: https://api.fleet.bp.com/authentication/v1.0/
-  tags:
-  - PaymentMethod
-  properties:
-  - type: OpenAPI
-    url: openapi/bp-paymentmethod-api-openapi.yml
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/authentication
-  - type: Documentation
-    url: https://developer.fleet.bp.com/DE/getting-started
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/card-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/invoice-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/transaction-management
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
-  - type: APIReference
-    url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
 - aid: bp:bp-sitediscovery-api
   name: BP Site Discovery API
   description: The SiteDiscovery API from BP — 2 operation(s) for sitediscovery.
@@ -256,6 +208,54 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bp-token-api-openapi.yml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/authentication
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/card-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/invoice-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/transaction-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
+- aid: bp:bp-health-check-api
+  name: BP Health Check API
+  description: The Health Check API from BP — 1 operation(s) for health check.
+  humanURL: https://developer.bp.com/hub
+  baseURL: https://api.fleet.bp.com/authentication/v1.0/
+  tags:
+  - Health Check
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-health-check-api-openapi.yml
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/authentication
+  - type: Documentation
+    url: https://developer.fleet.bp.com/DE/getting-started
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/card-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/invoice-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/transaction-management
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/retail-site-information-anz
+  - type: APIReference
+    url: https://developer.fleet.bp.com/DE/apis/aral-appconnect
+- aid: bp:bp-payment-method-api
+  name: BP Payment Method API
+  description: The Payment Method API from BP — 1 operation(s) for payment method.
+  humanURL: https://developer.bp.com/hub
+  baseURL: https://api.fleet.bp.com/authentication/v1.0/
+  tags:
+  - Payment Method
+  properties:
+  - type: OpenAPI
+    url: openapi/bp-payment-method-api-openapi.yml
   - type: APIReference
     url: https://developer.fleet.bp.com/DE/apis/authentication
   - type: Documentation
