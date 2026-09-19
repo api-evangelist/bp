@@ -2,15 +2,16 @@
 kin_checks:
   slug: bp
   schema_version: 0.22.0
-  scored_at: '2026-09-15'
-  run_ts: 2026-09-15T230249
-  note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.22.0.yml; counts below let you verify that.
+  scored_at: '2026-09-17'
+  run_ts: 2026-09-17T233623
+  note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
+    apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
+    below let you verify that.
   counts:
     total: 136
-    earned: 41
-    partial: 12
-    missed: 61
+    earned: 45
+    partial: 11
+    missed: 58
     na: 22
   checks:
   - id: base_url_per_api
@@ -21,32 +22,26 @@ kin_checks:
     status: missed
   - id: openapi_3_2
     status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: openapi_3_1
     status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: info_complete
     status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: servers_defined
     status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: servers_resolvable
     status: missed
-  - id: operations_summary_coverage
-    status: missed
-    detail: 0 of 6 openapi documents pass
   - id: operations_description_coverage
     status: missed
-    detail: 0 of 6 openapi documents pass
-  - id: operations_operation_ids
-    status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: examples_present
     status: missed
   - id: webhooks_or_callbacks
     status: missed
-    detail: 0 of 6 openapi documents pass
+    detail: 0 of 8 openapi documents pass
   - id: asyncapi_present
     status: missed
   - id: json_schema_present
@@ -124,8 +119,6 @@ kin_checks:
     status: missed
   - id: agentic_access
     status: missed
-  - id: reversibility_documented
-    status: missed
   - id: mcp_server
     status: missed
   - id: idempotency
@@ -144,26 +137,22 @@ kin_checks:
     status: missed
   - id: agentic_commerce
     status: missed
-  - id: operations_tagged
-    status: partial
-    earned: 3.33
-    detail: 5 of 6 openapi documents pass
   - id: error_responses_documented
     status: partial
-    earned: 3.33
-    detail: 5 of 6 openapi documents pass
+    earned: 2.0
+    detail: 4 of 8 openapi documents pass
   - id: components_reuse
     status: partial
-    earned: 1.0
-    detail: 2 of 6 openapi documents pass
+    earned: 1.13
+    detail: 3 of 8 openapi documents pass
   - id: security_schemes_defined
     status: partial
-    earned: 3.33
-    detail: 5 of 6 openapi documents pass
+    earned: 3.5
+    detail: 7 of 8 openapi documents pass
   - id: security_applied
     status: partial
-    earned: 2.5
-    detail: 5 of 6 openapi documents pass
+    earned: 2.63
+    detail: 7 of 8 openapi documents pass
   - id: conformance_declared
     status: partial
     earned: 1.5
@@ -190,3 +179,26 @@ kin_checks:
     status: partial
     earned: 1.25
     detail: 'authorship: derived'
+  na:
+  - asyncapi_3_x
+  - channels_defined
+  - contract_self_operated
+  - fhir_capability_statement
+  - fhir_resource_coverage
+  - graphql_descriptions
+  - graphql_sdl_present
+  - graphql_type_depth
+  - inbound_contract_published
+  - messages_with_schema
+  - os_code_of_conduct
+  - os_contribution_guide
+  - os_releases
+  - os_security_policy
+  - reg_camara_conformance
+  - reg_entitlement_terms
+  - reg_fapi_profile
+  - reg_pci_sca
+  - reg_smart_configuration
+  - reg_write_surface
+  - security_schemes
+  - server_bindings

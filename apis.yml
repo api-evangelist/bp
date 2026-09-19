@@ -204,6 +204,8 @@ apis:
   humanURL: https://developer.bp.com/hub
   baseURL: https://api.fleet.bp.com/authentication/v1.0/
   tags:
+  - Tokens
+  tags_raw:
   - Token
   properties:
   - type: OpenAPI
