@@ -1,0 +1,327 @@
+openapi: 3.2.0
+info:
+  title: Pay@Pump Site Discovery API
+  description: A micro service for Pay@Pump
+  version: '1'
+security:
+- Bearer: []
+tags:
+- name: SiteDiscovery
+paths:
+  /sites:
+    get:
+      tags:
+      - SiteDiscovery
+      parameters:
+      - name: Lat
+        in: query
+        required: true
+        schema:
+          maximum: 90
+          minimum: -90
+          type: number
+          format: double
+      - name: Lng
+        in: query
+        required: true
+        schema:
+          maximum: 180
+          minimum: -180
+          type: number
+          format: double
+      - name: Radius
+        in: query
+        required: true
+        schema:
+          maximum: 16000
+          minimum: 0
+          type: integer
+          format: int32
+      - name: api-version
+        in: header
+        description: The requested API version
+        schema:
+          type: string
+          default: '1'
+      - name: X-APP-Client
+        in: header
+        description: Determines the calling client
+        schema:
+          type: string
+      - name: X-Correlation-Id
+        in: header
+        description: A guid to track the request
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetNearbySitesResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+      summary: Get sites
+      x-summary-source: derived
+      operationId: getSites
+      x-operation-id-source: derived
+  /sites/{siteId}:
+    get:
+      tags:
+      - SiteDiscovery
+      parameters:
+      - name: siteId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: api-version
+        in: header
+        description: The requested API version
+        schema:
+          type: string
+          default: '1'
+      - name: X-APP-Client
+        in: header
+        description: Determines the calling client
+        schema:
+          type: string
+      - name: X-Correlation-Id
+        in: header
+        description: A guid to track the request
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Response.Dsp.GetSiteDetailsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+      summary: Get sites by site id
+      x-summary-source: derived
+      operationId: getSitesBySiteId
+      x-operation-id-source: derived
+components:
+  schemas:
+    pol_service_api.Models.Common.ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Response.Dsp.GetSiteDetailsResponse:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
+        fuelPumps:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.PumpConfig'
+      additionalProperties: false
+    pol_service_api.Models.Common.PolError:
+      type: object
+      properties:
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.RetailSite:
+      type: object
+      properties:
+        siteName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        retailSiteBrand:
+          type:
+          - string
+          - 'null'
+        mobileEnabled:
+          type: boolean
+          readOnly: true
+        retailSiteOperatingHours:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSiteOperatingHour'
+        retailSiteFeatures:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSiteFeature'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.FuelGrade:
+      type: object
+      properties:
+        available:
+          type: boolean
+        fuelType:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.Address:
+      type: object
+      properties:
+        addressLine1:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        stateCode:
+          type:
+          - string
+          - 'null'
+        postalCode:
+          type:
+          - string
+          - 'null'
+        workPhoneNumber:
+          type:
+          - string
+          - 'null'
+        latitude:
+          type:
+          - string
+          - 'null'
+        longitude:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Response.Dsp.GetNearbySitesResponse:
+      type: object
+      properties:
+        sites:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.NearbySite'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.NearbySite:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
+        distance:
+          type:
+          - string
+          - 'null'
+        siteId:
+          type:
+          - string
+          - 'null'
+        retailSiteConfig:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSite'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.RetailSiteFeature:
+      type: object
+      properties:
+        featureName:
+          type:
+          - string
+          - 'null'
+        featureValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.PumpConfig:
+      type: object
+      properties:
+        pumpId:
+          type: integer
+          format: int32
+        fuelGrades:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.FuelGrade'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.RetailSiteOperatingHour:
+      type: object
+      properties:
+        openingTime:
+          type:
+          - string
+          - 'null'
+        closingTime:
+          type:
+          - string
+          - 'null'
+        dayOfWeek:
+          type:
+          - string
+          - 'null'
+        site24Hours:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme (Example: ''Bearer 12345abcdef'')'
+      name: Authorization
+      in: header

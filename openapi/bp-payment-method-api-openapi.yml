@@ -1,0 +1,304 @@
+openapi: 3.2.0
+info:
+  title: Pay@Pump Payment Method API
+  description: A micro service for Pay@Pump
+  version: '1'
+security:
+- Bearer: []
+tags:
+- name: Payment Method
+paths:
+  /payment-method:
+    post:
+      tags:
+      - Payment Method
+      parameters:
+      - name: api-version
+        in: header
+        description: The requested API version
+        schema:
+          type: string
+          default: '1'
+      - name: X-APP-Client
+        in: header
+        description: Determines the calling client
+        schema:
+          type: string
+      - name: X-Correlation-Id
+        in: header
+        description: A guid to track the request
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.PostPaymentMethodRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethodResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+      summary: Create payment method
+      x-summary-source: derived
+      operationId: postPaymentMethod
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Payment Method
+      parameters:
+      - name: api-version
+        in: header
+        description: The requested API version
+        schema:
+          type: string
+          default: '1'
+      - name: X-APP-Client
+        in: header
+        description: Determines the calling client
+        schema:
+          type: string
+      - name: X-Correlation-Id
+        in: header
+        description: A guid to track the request
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/pol_service_api.Request.Wallet.DeletePaymentMethodRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/System.Net.HttpStatusCode'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/System.Net.HttpStatusCode'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/System.Net.HttpStatusCode'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/pol_service_api.Models.Common.ErrorResponse'
+      summary: Delete payment method
+      x-summary-source: derived
+      operationId: deletePaymentMethod
+      x-operation-id-source: derived
+components:
+  schemas:
+    pol_service_api.Models.Common.ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Models.Wallet.Metadata:
+      required:
+      - tpin
+      type: object
+      properties:
+        tpin:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    pol_service_api.Request.Wallet.PostPaymentMethodRequest:
+      required:
+      - payment_method
+      type: object
+      properties:
+        payment_method:
+          $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethod'
+      additionalProperties: false
+    pol_service_api.Request.Wallet.DeletePaymentMethodRequest:
+      required:
+      - entityId
+      type: object
+      properties:
+        entityId:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    pol_service_api.Models.Wallet.CreditCard:
+      required:
+      - full_name
+      - month
+      - number
+      - year
+      type: object
+      properties:
+        full_name:
+          minLength: 1
+          type: string
+        number:
+          maxLength: 19
+          minLength: 18
+          pattern: ^[0-9]*$
+          type: string
+        month:
+          minLength: 1
+          type: string
+        year:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    pol_service_api.Models.Wallet.PostPaymentMethod:
+      required:
+      - fuel_card
+      - metadata
+      type: object
+      properties:
+        fuel_card:
+          $ref: '#/components/schemas/pol_service_api.Models.Wallet.CreditCard'
+        metadata:
+          $ref: '#/components/schemas/pol_service_api.Models.Wallet.Metadata'
+      additionalProperties: false
+    pol_service_api.Models.Common.PolError:
+      type: object
+      properties:
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    System.Net.HttpStatusCode:
+      enum:
+      - 100
+      - 101
+      - 102
+      - 103
+      - 200
+      - 201
+      - 202
+      - 203
+      - 204
+      - 205
+      - 206
+      - 207
+      - 208
+      - 226
+      - 300
+      - 301
+      - 302
+      - 303
+      - 304
+      - 305
+      - 306
+      - 307
+      - 308
+      - 400
+      - 401
+      - 402
+      - 403
+      - 404
+      - 405
+      - 406
+      - 407
+      - 408
+      - 409
+      - 410
+      - 411
+      - 412
+      - 413
+      - 414
+      - 415
+      - 416
+      - 417
+      - 421
+      - 422
+      - 423
+      - 424
+      - 426
+      - 428
+      - 429
+      - 431
+      - 451
+      - 500
+      - 501
+      - 502
+      - 503
+      - 504
+      - 505
+      - 506
+      - 507
+      - 508
+      - 510
+      - 511
+      type: integer
+      format: int32
+    pol_service_api.Models.Wallet.PostPaymentMethodResponse:
+      type: object
+      properties:
+        entityId:
+          type:
+          - string
+          - 'null'
+        managementInfo:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme (Example: ''Bearer 12345abcdef'')'
+      name: Authorization
+      in: header

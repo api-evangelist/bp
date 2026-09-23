@@ -1,0 +1,56 @@
+{
+  "provider": "bp",
+  "sources": [
+    "_original/bp-fleet-aral-appconnect-openapi.json",
+    "_original/bp-fleet-authentication-openapi.json",
+    "_original/bp-fleet-card-management-openapi.json",
+    "_original/bp-fleet-invoice-management-openapi.json",
+    "_original/bp-fleet-transaction-management-openapi.json"
+  ],
+  "outputs": [
+    "bp-fueling-api-openapi.yml",
+    "bp-healthcheck-api-openapi.yml",
+    "bp-paymentmethod-api-openapi.yml",
+    "bp-sitediscovery-api-openapi.yml",
+    "bp-token-api-openapi.yml",
+    "bp-cards-api-openapi.yml",
+    "bp-openapiinvoices-api-openapi.yml",
+    "bp-openapitransactions-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (5 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "bp-fleet-aral-appconnect-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "bp-fleet-aral-appconnect-openapi.json: declared missing tag: Fueling",
+    "bp-fleet-aral-appconnect-openapi.json: declared missing tag: HealthCheck",
+    "bp-fleet-aral-appconnect-openapi.json: declared missing tag: PaymentMethod",
+    "bp-fleet-aral-appconnect-openapi.json: declared missing tag: SiteDiscovery",
+    "bp-fleet-authentication-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "bp-fleet-authentication-openapi.json: tagged paths POST /token -> Token",
+    "bp-fleet-authentication-openapi.json: declared missing tag: Token",
+    "bp-fleet-card-management-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "bp-fleet-card-management-openapi.json: declared missing tag: Cards",
+    "bp-fleet-invoice-management-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "bp-fleet-invoice-management-openapi.json: declared missing tag: OpenApiInvoices",
+    "bp-fleet-transaction-management-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "bp-fleet-transaction-management-openapi.json: declared missing tag: OpenApiTransactions",
+    "superseded outputs removed: bp-health-check-api-openapi.yml, bp-payment-method-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 9 total)"
+  ],
+  "skipped": [
+    "_original/bp-fleet-retail-site-information-openapi.json: archived document superseded by a larger archived document",
+    "bp-cards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-fueling-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-health-check-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-openapiinvoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-openapitransactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-payment-method-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-sitediscovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bp-token-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

@@ -1,0 +1,272 @@
+openapi: 3.2.0
+info:
+  title: OpenAPI Endpoints Open API Invoices API
+  version: v1.0
+security:
+- Bearer: []
+tags:
+- name: OpenApiInvoices
+paths:
+  /invoices:
+    get:
+      tags:
+      - OpenApiInvoices
+      responses:
+        '200':
+          content:
+            Application/Json:
+              schema:
+                $ref: '#/components/schemas/OpenApiInvoicesResponse'
+          description: Success
+        '400':
+          content:
+            Application/Json:
+              schema:
+                $ref: '#/components/schemas/ResultEntity'
+          description: Bad Request
+        '500':
+          content:
+            Application/Json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetailsEntity'
+          description: Server Error
+      parameters:
+      - in: query
+        name: AuthorityIds
+        schema:
+          type: array
+          items:
+            type: string
+        description: Only search invoices with matching authorityIds - Multiple authorities can be added via authorityIds=A123,authorityIds=A345,...
+      - in: query
+        name: StartDateTime
+        schema:
+          type: string
+        description: Start date time for search
+      - in: query
+        name: EndDateTime
+        schema:
+          type: string
+        description: End date time for search
+      - in: query
+        name: PageSize
+        schema:
+          type: integer
+          format: int32
+        description: Max results to return - If set must be between 1 and 1000
+      - in: query
+        name: Page
+        schema:
+          type: integer
+          format: int32
+        description: Page Number
+      - in: query
+        name: ParentIds
+        schema:
+          type: array
+          items:
+            type: string
+        description: Only search invoices with matching parentIds
+      - in: header
+        name: x-correlation-id
+        schema:
+          type: string
+          format: uuid
+        description: Correlation Id
+      summary: Get invoices
+      x-summary-source: derived
+      operationId: getInvoices
+      x-operation-id-source: derived
+components:
+  schemas:
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OpenApiInvoicesResponse:
+      type: object
+      properties:
+        invoices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OpenApiInvoiceResponse'
+        numberOfRecords:
+          type: integer
+          format: int32
+        moreInvoicesAvailable:
+          type: boolean
+      additionalProperties: false
+    OpenApiInvoiceResponse:
+      type: object
+      properties:
+        customer:
+          type:
+          - string
+          - 'null'
+          description: Customer.  Name of customer
+        parentId:
+          type:
+          - string
+          - 'null'
+          description: Parent id.  Id of parent associated with the invoice
+        invoiceId:
+          type:
+          - string
+          - 'null'
+          description: Invoice id
+        parentName:
+          type:
+          - string
+          - 'null'
+          description: Parent name.  Name of parent associated with the invoice
+        authorityId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: .  Id of authority associated with the invoice
+        invoiceDate:
+          type:
+          - string
+          - 'null'
+          description: Invoice date
+        invoiceType:
+          type:
+          - string
+          - 'null'
+        accountLevel:
+          type:
+          - string
+          - 'null'
+          description: Account level.  Value is either CU or PC
+        invoiceCycle:
+          type: integer
+          format: int32
+          description: Invoice cycle
+        espCustomerNo:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: ESP customer number
+        invoiceNumber:
+          type:
+          - string
+          - 'null'
+          description: Invoice number
+        invoiceToDate:
+          type:
+          - string
+          - 'null'
+          description: Invoice to date
+        issuerCountry:
+          type:
+          - string
+          - 'null'
+          description: Issuer country - Iso code for issuer country
+        paymentMethod:
+          type:
+          - string
+          - 'null'
+          description: Payment method - This is a code with very little meaning e.g. 1 = DIRECT DEBIT 2 = BANK GIRO - Lookup is based on source system name and payment method.  There are 171 code defined
+        supplyCountry:
+          type:
+          - string
+          - 'null'
+          description: Supply country - Iso code for supply country
+        invoiceDueDate:
+          type:
+          - string
+          - 'null'
+          description: Invoice due date
+        invoiceFromDate:
+          type:
+          - string
+          - 'null'
+          description: Invoice from date
+        invoiceNetValue:
+          type: number
+          format: double
+          description: Invoice net value
+        invoiceVatValue:
+          type: number
+          format: double
+          description: Invoice vat value
+        productItemCount:
+          type: integer
+          format: int32
+          description: Product item count
+        invoiceTotalValue:
+          type: number
+          format: double
+          description: Invoice total value
+        issuerCountryName:
+          type:
+          - string
+          - 'null'
+          description: Issuer country name
+        recordCreatedDate:
+          type:
+          - string
+          - 'null'
+          description: Record created date - Date time the inovoice was last updated
+        invoiceRebateValue:
+          type: number
+          format: double
+          description: Invoice rebate value
+        recordModifiedDate:
+          type:
+          - string
+          - 'null'
+          description: Record modified date - Date time the inovoice was created
+        summaryStatementId:
+          type:
+          - string
+          - 'null'
+          description: Summary statement id
+        invoiceCurrencyCode:
+          type:
+          - string
+          - 'null'
+          description: Invoice currency code
+        summaryStatementDate:
+          type:
+          - string
+          - 'null'
+          description: Summary statement date
+        paymentMethodDescription:
+          type:
+          - string
+          - 'null'
+          description: Payment method description - Description for the payment method
+      additionalProperties: false
+    ResultEntity:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        success:
+          type: boolean
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+        correlationId:
+          type: string
+          format: uuid
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      in: header
+      name: Authorization
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme (Example: ''Bearer 12345abcdef'')'

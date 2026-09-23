@@ -1,0 +1,45 @@
+openapi: 3.2.0
+info:
+  title: Pay@Pump Health Check API
+  description: A micro service for Pay@Pump
+  version: '1'
+security:
+- Bearer: []
+tags:
+- name: Health Check
+paths:
+  /health-check:
+    get:
+      tags:
+      - Health Check
+      parameters:
+      - name: api-version
+        in: header
+        description: The requested API version
+        schema:
+          type: string
+          default: '1'
+      - name: X-APP-Client
+        in: header
+        description: Determines the calling client
+        schema:
+          type: string
+      - name: X-Correlation-Id
+        in: header
+        description: A guid to track the request
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+      summary: Get health check
+      x-summary-source: derived
+      operationId: getHealthCheck
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme (Example: ''Bearer 12345abcdef'')'
+      name: Authorization
+      in: header

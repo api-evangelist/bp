@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  title: OpenAPI Endpoints Token API
+  version: v1.0
+tags:
+- name: Token
+paths:
+  /token:
+    post:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenApiAuthenticationResponse'
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResultEntity'
+          description: Invalid client secret
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResultEntity'
+          description: Invalid client id
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - client_id
+              - client_secret
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+      tags:
+      - Token
+      summary: Create token
+      x-summary-source: derived
+      operationId: postToken
+      x-operation-id-source: derived
+components:
+  schemas:
+    OpenApiAuthenticationResponse:
+      type: object
+      properties:
+        expires_in:
+          type: integer
+          format: int32
+        token_type:
+          type: string
+        access_token:
+          type: string
+        ext_expires_in:
+          type: integer
+          format: int32
+    ErrorResultEntity:
+      type: object
+      properties:
+        error:
+          type: string
+        trace_id:
+          type: string
+        error_uri:
+          type: string
+        timestamp:
+          type: string
+        error_codes:
+          type: array
+          items:
+            type: integer
+        correlation_id:
+          type: string
+        error_description:
+          type: string

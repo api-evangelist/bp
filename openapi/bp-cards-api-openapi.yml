@@ -1,0 +1,352 @@
+openapi: 3.2.0
+info:
+  title: bp_fleet_msvc_cards_openapi Cards API
+  version: v1
+security:
+- Bearer: []
+tags:
+- name: Cards
+paths:
+  /cards:
+    get:
+      tags:
+      - Cards
+      parameters:
+      - name: AuthorityIds
+        in: query
+        description: Only search cards with matching authorityIds. Multiple authorities can be added using a comma-separated list, <br>e.g., authorityIds=A123,authorityIds=A345,...
+        schema:
+          type: array
+          items:
+            type: string
+      - name: ParentIds
+        in: query
+        description: Only search cards with matching parentIds. Multiple parentIds can be added using a comma-separated list,<br> e.g., parentIds=A123,parentIds=A345,...
+        schema:
+          type: array
+          items:
+            type: string
+      - name: PageSize
+        in: query
+        description: Max results to return. Must be between 1 and 1000.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Page
+        in: query
+        description: Page Number
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: StartDateTime
+        in: query
+        description: 'Start date time for search (record modified date). Must be within 90 days of EndDateTime. <br>Format: yyyy-MM-ddTHH:mm:ssZ (e.g., 2024-11-28T11:54:00Z)'
+        required: true
+        schema:
+          type: string
+      - name: EndDateTime
+        in: query
+        description: 'End date time for search (record modified date). Must be within 90 days of StartDateTime.<br> Format: yyyy-MM-ddTHH:mm:ssZ (e.g., 2025-02-28T11:54:00Z)'
+        required: true
+        schema:
+          type: string
+      - name: CardStatusId
+        in: query
+        description: $22
+        schema:
+          type: string
+      - name: x-correlation-id
+        in: header
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OpenApiCardResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenApiCardResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OpenApiCardResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ResultEntity'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultEntity'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ResultEntity'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ErrorDetailsEntity'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetailsEntity'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetailsEntity'
+      summary: Get cards
+      x-summary-source: derived
+      operationId: getCards
+      x-operation-id-source: derived
+components:
+  schemas:
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OpenApiCardResponse:
+      type: object
+      properties:
+        moreCardsAvailable:
+          type: boolean
+        numberOfRecords:
+          type: integer
+          format: int32
+        cards:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CardApiResponse'
+      additionalProperties: false
+    CardApiResponse:
+      type: object
+      properties:
+        parentId:
+          type:
+          - string
+          - 'null'
+        authorityId:
+          type:
+          - string
+          - 'null'
+        costCentreName:
+          type:
+          - string
+          - 'null'
+        subCostCentreName:
+          type:
+          - string
+          - 'null'
+        secondSortLabel:
+          type:
+          - string
+          - 'null'
+        costCenterId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cardSerialNumber:
+          type: integer
+          format: int32
+        fullCardNumber:
+          type:
+          - string
+          - 'null'
+        prevCardSerialNo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        replaceCardSerialNo:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        issuerNumber:
+          type: integer
+          format: int32
+        embossingLineOne:
+          type:
+          - string
+          - 'null'
+        embossingLineTwo:
+          type:
+          - string
+          - 'null'
+        vehicleRegistrationNumber:
+          type:
+          - string
+          - 'null'
+        cardHolderName:
+          type:
+          - string
+          - 'null'
+        embossedServiceCode:
+          type:
+          - string
+          - 'null'
+        cardIssueDate:
+          type:
+          - string
+          - 'null'
+        cardExpiryDate:
+          type:
+          - string
+          - 'null'
+        internationUse:
+          type:
+          - string
+          - 'null'
+        sendTo:
+          type: integer
+          format: int32
+        cardStatusId:
+          type: integer
+          format: int32
+        cardStatusDescription:
+          type:
+          - string
+          - 'null'
+        cardPrevStatusId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        lastCardTransDate:
+          type:
+          - string
+          - 'null'
+        recordCreatedDate:
+          type:
+          - string
+          - 'null'
+        recordModifiedDate:
+          type:
+          - string
+          - 'null'
+        informationRequirement:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        austrianRoadToll:
+          type:
+          - string
+          - 'null'
+        artObuId:
+          type:
+          - string
+          - 'null'
+        artVehicleReg:
+          type:
+          - string
+          - 'null'
+        gasoleoProfesional:
+          type:
+          - string
+          - 'null'
+        gasoleoProfesionalStartDate:
+          type:
+          - string
+          - 'null'
+        gasoleoProfesionalEndDate:
+          type:
+          - string
+          - 'null'
+        ppdScheme:
+          type:
+          - string
+          - 'null'
+        ppdSchemeStartDate:
+          type:
+          - string
+          - 'null'
+        ppdSchemeEndDate:
+          type:
+          - string
+          - 'null'
+        profileId:
+          type:
+          - string
+          - 'null'
+        profileName:
+          type:
+          - string
+          - 'null'
+        pinDerivation:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        pinReq:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        bpMeEnabled:
+          type:
+          - string
+          - 'null'
+        cardProvisioned:
+          type:
+          - string
+          - 'null'
+        lastVirtualTransDate:
+          type:
+          - string
+          - 'null'
+        virtualCardStatusId:
+          type: integer
+          format: int32
+        virtualCardStatusDescription:
+          type:
+          - string
+          - 'null'
+        cardPlasticOption:
+          type:
+          - string
+          - 'null'
+        cardProgramName:
+          type:
+          - string
+          - 'null'
+        targetNeutral:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ResultEntity:
+      type: object
+      properties:
+        correlationId:
+          type: string
+          format: uuid
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: 'JWT Authorization header using the Bearer scheme (Example: ''Bearer 12345abcdef'')'
+      name: Authorization
+      in: header
