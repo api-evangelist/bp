@@ -79,16 +79,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorDetailsEntity:
+    ResultEntity:
       type: object
       properties:
-        errorCode:
-          type: integer
-          format: int32
-        errorMessage:
+        message:
           type:
           - string
           - 'null'
+        success:
+          type: boolean
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+        correlationId:
+          type: string
+          format: uuid
       additionalProperties: false
     OpenApiTransactionsResponse:
       type: object
@@ -107,6 +111,17 @@ components:
         moreTransactionsAvailable:
           type: boolean
           description: true if there are more transactions matching the request params
+      additionalProperties: false
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     OpenApiTransactionResponse:
       type: object
@@ -504,21 +519,6 @@ components:
           - string
           - 'null'
           description: Net invoice rebated unit price in invoice currency.
-      additionalProperties: false
-    ResultEntity:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        success:
-          type: boolean
-        errorDetails:
-          $ref: '#/components/schemas/ErrorDetailsEntity'
-        correlationId:
-          type: string
-          format: uuid
       additionalProperties: false
   securitySchemes:
     Bearer:

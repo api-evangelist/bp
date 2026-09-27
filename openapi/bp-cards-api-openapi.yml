@@ -105,32 +105,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorDetailsEntity:
-      type: object
-      properties:
-        errorCode:
-          type: integer
-          format: int32
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    OpenApiCardResponse:
-      type: object
-      properties:
-        moreCardsAvailable:
-          type: boolean
-        numberOfRecords:
-          type: integer
-          format: int32
-        cards:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CardApiResponse'
-      additionalProperties: false
     CardApiResponse:
       type: object
       properties:
@@ -343,6 +317,32 @@ components:
           - 'null'
         errorDetails:
           $ref: '#/components/schemas/ErrorDetailsEntity'
+      additionalProperties: false
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OpenApiCardResponse:
+      type: object
+      properties:
+        moreCardsAvailable:
+          type: boolean
+        numberOfRecords:
+          type: integer
+          format: int32
+        cards:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CardApiResponse'
       additionalProperties: false
   securitySchemes:
     Bearer:
