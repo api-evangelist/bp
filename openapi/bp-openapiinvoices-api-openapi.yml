@@ -79,6 +79,47 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OpenApiInvoicesResponse:
+      type: object
+      properties:
+        invoices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OpenApiInvoiceResponse'
+        numberOfRecords:
+          type: integer
+          format: int32
+        moreInvoicesAvailable:
+          type: boolean
+      additionalProperties: false
+    ResultEntity:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        success:
+          type: boolean
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+        correlationId:
+          type: string
+          format: uuid
+      additionalProperties: false
     OpenApiInvoiceResponse:
       type: object
       properties:
@@ -222,47 +263,6 @@ components:
           - string
           - 'null'
           description: Payment method description - Description for the payment method
-      additionalProperties: false
-    ResultEntity:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        success:
-          type: boolean
-        errorDetails:
-          $ref: '#/components/schemas/ErrorDetailsEntity'
-        correlationId:
-          type: string
-          format: uuid
-      additionalProperties: false
-    ErrorDetailsEntity:
-      type: object
-      properties:
-        errorCode:
-          type: integer
-          format: int32
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    OpenApiInvoicesResponse:
-      type: object
-      properties:
-        invoices:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OpenApiInvoiceResponse'
-        numberOfRecords:
-          type: integer
-          format: int32
-        moreInvoicesAvailable:
-          type: boolean
       additionalProperties: false
   securitySchemes:
     Bearer:

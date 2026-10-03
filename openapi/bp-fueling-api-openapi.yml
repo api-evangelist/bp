@@ -183,6 +183,240 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    pol_service_api.Models.Dsp.Location:
+      required:
+      - lat
+      - lng
+      type: object
+      properties:
+        lat:
+          maximum: 90
+          minimum: -90
+          type: number
+          format: double
+        lng:
+          maximum: 180
+          minimum: -180
+          type: number
+          format: double
+      additionalProperties: false
+    pol_service_api.Models.Events.SiteAddress:
+      type: object
+      properties:
+        siteName:
+          type:
+          - string
+          - 'null'
+        street1:
+          type:
+          - string
+          - 'null'
+        postalCode:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Response.Txo.InitiateFuelingResponse:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+        pumpId:
+          type: integer
+          format: int32
+        preAuthorizedAmount:
+          type: number
+          format: double
+        allowedFuelTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        transactionId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Common.ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Models.Common.PolError:
+      type: object
+      properties:
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Events.PriceDetails:
+      type: object
+      properties:
+        subTotal:
+          type:
+          - string
+          - 'null'
+        totalTax:
+          type:
+          - string
+          - 'null'
+        totalAmount:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Txo.VehicleTxo:
+      type: object
+      properties:
+        odometer:
+          maximum: 999999
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        additionalInfo:
+          maxLength: 18
+          minLength: 0
+          pattern: ^[a-zA-Z0-9]*$
+          type:
+          - string
+          - 'null'
+        vehicleRegistration:
+          type:
+          - string
+          - 'null'
+        vehicleCode:
+          maxLength: 4
+          minLength: 1
+          pattern: ^[0-9]*$
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Events.Receipt:
+      type: object
+      properties:
+        siteId:
+          type:
+          - string
+          - 'null'
+        pumpId:
+          type: integer
+          format: int32
+        transactionId:
+          type:
+          - string
+          - 'null'
+        transactionTime:
+          type:
+          - string
+          - 'null'
+        receiptNumber:
+          type:
+          - string
+          - 'null'
+        terminalId:
+          type:
+          - string
+          - 'null'
+        authCode:
+          type:
+          - string
+          - 'null'
+        odometer:
+          type:
+          - string
+          - 'null'
+        siteAddress:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.SiteAddress'
+        productDetails:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.ProductDetails'
+        priceDetails:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.PriceDetails'
+        cardDetails:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.CardDetails'
+      additionalProperties: false
+    pol_service_api.Models.Events.CardDetails:
+      type: object
+      properties:
+        cardType:
+          type:
+          - string
+          - 'null'
+        cardNumber:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Response.Events.GetEventsResponse:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+        transactionReferenceId:
+          type:
+          - string
+          - 'null'
+        deliveryNote:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.Receipt'
+        errorList:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Request.Txo.InitiateFuelingRequest:
+      required:
+      - entityId
+      - locationInfo
+      - printReciept
+      - pumpId
+      - siteId
+      type: object
+      properties:
+        locationInfo:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Location'
+        vehicle:
+          $ref: '#/components/schemas/pol_service_api.Models.Txo.VehicleTxo'
+        siteId:
+          minLength: 1
+          type: string
+        pumpId:
+          type: integer
+          format: int32
+        amount:
+          minimum: 5
+          type:
+          - number
+          - 'null'
+          format: double
+        printReciept:
+          type: boolean
+        entityId:
+          minLength: 1
+          type: string
+      additionalProperties: false
     System.Net.HttpStatusCode:
       enum:
       - 100
@@ -248,62 +482,6 @@ components:
       - 511
       type: integer
       format: int32
-    pol_service_api.Response.Events.GetEventsResponse:
-      type: object
-      properties:
-        status:
-          type:
-          - string
-          - 'null'
-        transactionReferenceId:
-          type:
-          - string
-          - 'null'
-        deliveryNote:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.Receipt'
-        errorList:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
-      additionalProperties: false
-    pol_service_api.Models.Events.SiteAddress:
-      type: object
-      properties:
-        siteName:
-          type:
-          - string
-          - 'null'
-        street1:
-          type:
-          - string
-          - 'null'
-        postalCode:
-          type:
-          - string
-          - 'null'
-        city:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Events.PriceDetails:
-      type: object
-      properties:
-        subTotal:
-          type:
-          - string
-          - 'null'
-        totalTax:
-          type:
-          - string
-          - 'null'
-        totalAmount:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     pol_service_api.Models.Events.ProductDetails:
       type: object
       properties:
@@ -322,184 +500,6 @@ components:
           type:
           - number
           - 'null'
-          format: double
-      additionalProperties: false
-    pol_service_api.Models.Common.ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
-      additionalProperties: false
-    pol_service_api.Models.Common.PolError:
-      type: object
-      properties:
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Events.CardDetails:
-      type: object
-      properties:
-        cardType:
-          type:
-          - string
-          - 'null'
-        cardNumber:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Response.Txo.InitiateFuelingResponse:
-      type: object
-      properties:
-        status:
-          type:
-          - string
-          - 'null'
-        pumpId:
-          type: integer
-          format: int32
-        preAuthorizedAmount:
-          type: number
-          format: double
-        allowedFuelTypes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        transactionId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Events.Receipt:
-      type: object
-      properties:
-        siteId:
-          type:
-          - string
-          - 'null'
-        pumpId:
-          type: integer
-          format: int32
-        transactionId:
-          type:
-          - string
-          - 'null'
-        transactionTime:
-          type:
-          - string
-          - 'null'
-        receiptNumber:
-          type:
-          - string
-          - 'null'
-        terminalId:
-          type:
-          - string
-          - 'null'
-        authCode:
-          type:
-          - string
-          - 'null'
-        odometer:
-          type:
-          - string
-          - 'null'
-        siteAddress:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.SiteAddress'
-        productDetails:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.ProductDetails'
-        priceDetails:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.PriceDetails'
-        cardDetails:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.CardDetails'
-      additionalProperties: false
-    pol_service_api.Models.Txo.VehicleTxo:
-      type: object
-      properties:
-        odometer:
-          maximum: 999999
-          minimum: 0
-          type:
-          - integer
-          - 'null'
-          format: int32
-        additionalInfo:
-          maxLength: 18
-          minLength: 0
-          pattern: ^[a-zA-Z0-9]*$
-          type:
-          - string
-          - 'null'
-        vehicleRegistration:
-          type:
-          - string
-          - 'null'
-        vehicleCode:
-          maxLength: 4
-          minLength: 1
-          pattern: ^[0-9]*$
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Request.Txo.InitiateFuelingRequest:
-      required:
-      - entityId
-      - locationInfo
-      - printReciept
-      - pumpId
-      - siteId
-      type: object
-      properties:
-        locationInfo:
-          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Location'
-        vehicle:
-          $ref: '#/components/schemas/pol_service_api.Models.Txo.VehicleTxo'
-        siteId:
-          minLength: 1
-          type: string
-        pumpId:
-          type: integer
-          format: int32
-        amount:
-          minimum: 5
-          type:
-          - number
-          - 'null'
-          format: double
-        printReciept:
-          type: boolean
-        entityId:
-          minLength: 1
-          type: string
-      additionalProperties: false
-    pol_service_api.Models.Dsp.Location:
-      required:
-      - lat
-      - lng
-      type: object
-      properties:
-        lat:
-          maximum: 90
-          minimum: -90
-          type: number
-          format: double
-        lng:
-          maximum: 180
-          minimum: -180
-          type: number
           format: double
       additionalProperties: false
   securitySchemes:

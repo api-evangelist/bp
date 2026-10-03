@@ -151,18 +151,37 @@ components:
           items:
             $ref: '#/components/schemas/pol_service_api.Models.Dsp.PumpConfig'
       additionalProperties: false
-    pol_service_api.Models.Dsp.PumpConfig:
+    pol_service_api.Models.Common.ErrorResponse:
       type: object
       properties:
-        pumpId:
-          type: integer
-          format: int32
-        fuelGrades:
+        errors:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/pol_service_api.Models.Dsp.FuelGrade'
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Response.Dsp.GetNearbySitesResponse:
+      type: object
+      properties:
+        sites:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.NearbySite'
+      additionalProperties: false
+    pol_service_api.Models.Common.PolError:
+      type: object
+      properties:
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     pol_service_api.Models.Dsp.FuelGrade:
       type: object
@@ -177,54 +196,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Common.ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
-      additionalProperties: false
-    pol_service_api.Models.Common.PolError:
-      type: object
-      properties:
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Dsp.NearbySite:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
-        distance:
-          type:
-          - string
-          - 'null'
-        siteId:
-          type:
-          - string
-          - 'null'
-        retailSiteConfig:
-          $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSite'
-      additionalProperties: false
-    pol_service_api.Response.Dsp.GetNearbySitesResponse:
-      type: object
-      properties:
-        sites:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Dsp.NearbySite'
       additionalProperties: false
     pol_service_api.Models.Dsp.RetailSite:
       type: object
@@ -287,6 +258,19 @@ components:
           - string
           - 'null'
       additionalProperties: false
+    pol_service_api.Models.Dsp.PumpConfig:
+      type: object
+      properties:
+        pumpId:
+          type: integer
+          format: int32
+        fuelGrades:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.FuelGrade'
+      additionalProperties: false
     pol_service_api.Models.Dsp.Address:
       type: object
       properties:
@@ -318,6 +302,22 @@ components:
           type:
           - string
           - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.NearbySite:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
+        distance:
+          type:
+          - string
+          - 'null'
+        siteId:
+          type:
+          - string
+          - 'null'
+        retailSiteConfig:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSite'
       additionalProperties: false
   securitySchemes:
     Bearer:
