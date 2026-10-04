@@ -108,21 +108,6 @@ components:
           type: boolean
           description: true if there are more transactions matching the request params
       additionalProperties: false
-    ResultEntity:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        success:
-          type: boolean
-        errorDetails:
-          $ref: '#/components/schemas/ErrorDetailsEntity'
-        correlationId:
-          type: string
-          format: uuid
-      additionalProperties: false
     OpenApiTransactionResponse:
       type: object
       properties:
@@ -519,6 +504,21 @@ components:
           - string
           - 'null'
           description: Net invoice rebated unit price in invoice currency.
+      additionalProperties: false
+    ResultEntity:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        success:
+          type: boolean
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+        correlationId:
+          type: string
+          format: uuid
       additionalProperties: false
   securitySchemes:
     Bearer:

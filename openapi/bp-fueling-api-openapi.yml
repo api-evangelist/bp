@@ -183,63 +183,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    pol_service_api.Models.Dsp.Location:
-      required:
-      - lat
-      - lng
+    pol_service_api.Models.Common.PolError:
       type: object
       properties:
-        lat:
-          maximum: 90
-          minimum: -90
-          type: number
-          format: double
-        lng:
-          maximum: 180
-          minimum: -180
-          type: number
-          format: double
-      additionalProperties: false
-    pol_service_api.Models.Events.SiteAddress:
-      type: object
-      properties:
-        siteName:
+        errorCode:
           type:
           - string
           - 'null'
-        street1:
-          type:
-          - string
-          - 'null'
-        postalCode:
-          type:
-          - string
-          - 'null'
-        city:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Response.Txo.InitiateFuelingResponse:
-      type: object
-      properties:
-        status:
-          type:
-          - string
-          - 'null'
-        pumpId:
-          type: integer
-          format: int32
-        preAuthorizedAmount:
-          type: number
-          format: double
-        allowedFuelTypes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        transactionId:
+        errorMessage:
           type:
           - string
           - 'null'
@@ -254,33 +205,37 @@ components:
           items:
             $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
       additionalProperties: false
-    pol_service_api.Models.Common.PolError:
+    pol_service_api.Models.Events.CardDetails:
       type: object
       properties:
-        errorCode:
+        cardType:
           type:
           - string
           - 'null'
-        errorMessage:
+        cardNumber:
           type:
           - string
           - 'null'
       additionalProperties: false
-    pol_service_api.Models.Events.PriceDetails:
+    pol_service_api.Response.Events.GetEventsResponse:
       type: object
       properties:
-        subTotal:
+        status:
           type:
           - string
           - 'null'
-        totalTax:
+        transactionReferenceId:
           type:
           - string
           - 'null'
-        totalAmount:
+        deliveryNote:
+          $ref: '#/components/schemas/pol_service_api.Models.Events.Receipt'
+        errorList:
           type:
-          - string
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
       additionalProperties: false
     pol_service_api.Models.Txo.VehicleTxo:
       type: object
@@ -354,37 +309,25 @@ components:
         cardDetails:
           $ref: '#/components/schemas/pol_service_api.Models.Events.CardDetails'
       additionalProperties: false
-    pol_service_api.Models.Events.CardDetails:
+    pol_service_api.Models.Events.ProductDetails:
       type: object
       properties:
-        cardType:
+        productPicked:
           type:
           - string
           - 'null'
-        cardNumber:
+        volumePicked:
+          type: number
+          format: double
+        unitMeasure:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    pol_service_api.Response.Events.GetEventsResponse:
-      type: object
-      properties:
-        status:
+        pricePerUnit:
           type:
-          - string
+          - number
           - 'null'
-        transactionReferenceId:
-          type:
-          - string
-          - 'null'
-        deliveryNote:
-          $ref: '#/components/schemas/pol_service_api.Models.Events.Receipt'
-        errorList:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+          format: double
       additionalProperties: false
     pol_service_api.Request.Txo.InitiateFuelingRequest:
       required:
@@ -416,6 +359,46 @@ components:
         entityId:
           minLength: 1
           type: string
+      additionalProperties: false
+    pol_service_api.Response.Txo.InitiateFuelingResponse:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+        pumpId:
+          type: integer
+          format: int32
+        preAuthorizedAmount:
+          type: number
+          format: double
+        allowedFuelTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        transactionId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Events.PriceDetails:
+      type: object
+      properties:
+        subTotal:
+          type:
+          - string
+          - 'null'
+        totalTax:
+          type:
+          - string
+          - 'null'
+        totalAmount:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     System.Net.HttpStatusCode:
       enum:
@@ -482,24 +465,41 @@ components:
       - 511
       type: integer
       format: int32
-    pol_service_api.Models.Events.ProductDetails:
+    pol_service_api.Models.Events.SiteAddress:
       type: object
       properties:
-        productPicked:
+        siteName:
           type:
           - string
           - 'null'
-        volumePicked:
+        street1:
+          type:
+          - string
+          - 'null'
+        postalCode:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.Location:
+      required:
+      - lat
+      - lng
+      type: object
+      properties:
+        lat:
+          maximum: 90
+          minimum: -90
           type: number
           format: double
-        unitMeasure:
-          type:
-          - string
-          - 'null'
-        pricePerUnit:
-          type:
-          - number
-          - 'null'
+        lng:
+          maximum: 180
+          minimum: -180
+          type: number
           format: double
       additionalProperties: false
   securitySchemes:

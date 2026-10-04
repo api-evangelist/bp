@@ -139,18 +139,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    pol_service_api.Response.Dsp.GetSiteDetailsResponse:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
-        fuelPumps:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Dsp.PumpConfig'
-      additionalProperties: false
     pol_service_api.Models.Common.ErrorResponse:
       type: object
       properties:
@@ -160,16 +148,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
-      additionalProperties: false
-    pol_service_api.Response.Dsp.GetNearbySitesResponse:
-      type: object
-      properties:
-        sites:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Dsp.NearbySite'
       additionalProperties: false
     pol_service_api.Models.Common.PolError:
       type: object
@@ -226,50 +204,17 @@ components:
           items:
             $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSiteFeature'
       additionalProperties: false
-    pol_service_api.Models.Dsp.RetailSiteFeature:
+    pol_service_api.Response.Dsp.GetSiteDetailsResponse:
       type: object
       properties:
-        featureName:
-          type:
-          - string
-          - 'null'
-        featureValue:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Dsp.RetailSiteOperatingHour:
-      type: object
-      properties:
-        openingTime:
-          type:
-          - string
-          - 'null'
-        closingTime:
-          type:
-          - string
-          - 'null'
-        dayOfWeek:
-          type:
-          - string
-          - 'null'
-        site24Hours:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Models.Dsp.PumpConfig:
-      type: object
-      properties:
-        pumpId:
-          type: integer
-          format: int32
-        fuelGrades:
+        address:
+          $ref: '#/components/schemas/pol_service_api.Models.Dsp.Address'
+        fuelPumps:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/pol_service_api.Models.Dsp.FuelGrade'
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.PumpConfig'
       additionalProperties: false
     pol_service_api.Models.Dsp.Address:
       type: object
@@ -318,6 +263,61 @@ components:
           - 'null'
         retailSiteConfig:
           $ref: '#/components/schemas/pol_service_api.Models.Dsp.RetailSite'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.RetailSiteFeature:
+      type: object
+      properties:
+        featureName:
+          type:
+          - string
+          - 'null'
+        featureValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Response.Dsp.GetNearbySitesResponse:
+      type: object
+      properties:
+        sites:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.NearbySite'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.RetailSiteOperatingHour:
+      type: object
+      properties:
+        openingTime:
+          type:
+          - string
+          - 'null'
+        closingTime:
+          type:
+          - string
+          - 'null'
+        dayOfWeek:
+          type:
+          - string
+          - 'null'
+        site24Hours:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Dsp.PumpConfig:
+      type: object
+      properties:
+        pumpId:
+          type: integer
+          format: int32
+        fuelGrades:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Dsp.FuelGrade'
       additionalProperties: false
   securitySchemes:
     Bearer:
