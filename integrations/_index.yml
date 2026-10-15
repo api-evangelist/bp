@@ -26,3 +26,54 @@
     detected: '2026-10-13'
   status: not-a-workflow
   arazzo: null
+- slug: bp-openchargemap
+  label: openchargemap
+  partner: openchargemap
+  partner_name: openchargemap
+  type: claimed
+  channel: partner-built
+  evidence: https://openchargemap.org/site/poi?operatorid=3593
+  source: edge
+  relationship: endpoint-coverage
+  status: not-a-workflow
+  arazzo: null
+- slug: bp-iso-10383-mic
+  label: ISO 10383 (MIC)
+  partner_name: ISO 10383 (MIC)
+  category: registered trading venues and market segments
+  type: register
+  channel: standard-directory
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: bp.com
+    matched_by: domain+verified:bp.com
+    categories:
+    - NSPD
+    operating_mics:
+    - BETX
+    - BTLX
+    mics:
+    - mic: BETX
+      operating_mic: BETX
+      segment: OPRT
+      market: BET OTC BILAT COMMODITY DERIVATIVES
+      category: NSPD
+      legal_name: ''
+      country: GB
+    - mic: BTLX
+      operating_mic: BTLX
+      segment: OPRT
+      market: BTL OTC BILAT COMMODITY DERIVATIVES
+      category: NSPD
+      legal_name: ''
+      country: GB
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null

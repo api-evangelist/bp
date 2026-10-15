@@ -34,7 +34,48 @@ edges:
   evidence: https://openchargemap.org/site/poi?operatorid=3593
   detected_by: sweep-automotive.py
   detected: '2026-10-13'
+- partner_name: ISO 10383 (MIC)
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: mic
+  category: registered trading venues and market segments
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: bp.com
+    matched_by: domain+verified:bp.com
+    categories:
+    - NSPD
+    operating_mics:
+    - BETX
+    - BTLX
+    mics:
+    - mic: BETX
+      operating_mic: BETX
+      segment: OPRT
+      market: BET OTC BILAT COMMODITY DERIVATIVES
+      category: NSPD
+      legal_name: ''
+      country: GB
+    - mic: BTLX
+      operating_mic: BTLX
+      segment: OPRT
+      market: BTL OTC BILAT COMMODITY DERIVATIVES
+      category: NSPD
+      legal_name: ''
+      country: GB
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-15'
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-15'
 generated: '2026-10-13'
 method: searched
 checked:
 - https://api.arcadia.com/plug/providers/public
+- https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
