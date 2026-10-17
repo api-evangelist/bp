@@ -79,17 +79,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorDetailsEntity:
-      type: object
-      properties:
-        errorCode:
-          type: integer
-          format: int32
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     OpenApiTransactionsResponse:
       type: object
       properties:
@@ -504,6 +493,17 @@ components:
           - string
           - 'null'
           description: Net invoice rebated unit price in invoice currency.
+      additionalProperties: false
+    ErrorDetailsEntity:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     ResultEntity:
       type: object

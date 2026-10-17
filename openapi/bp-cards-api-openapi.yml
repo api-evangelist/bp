@@ -116,6 +116,21 @@ components:
           - string
           - 'null'
       additionalProperties: false
+    OpenApiCardResponse:
+      type: object
+      properties:
+        moreCardsAvailable:
+          type: boolean
+        numberOfRecords:
+          type: integer
+          format: int32
+        cards:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CardApiResponse'
+      additionalProperties: false
     CardApiResponse:
       type: object
       properties:
@@ -313,21 +328,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    OpenApiCardResponse:
-      type: object
-      properties:
-        moreCardsAvailable:
-          type: boolean
-        numberOfRecords:
-          type: integer
-          format: int32
-        cards:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CardApiResponse'
       additionalProperties: false
     ResultEntity:
       type: object

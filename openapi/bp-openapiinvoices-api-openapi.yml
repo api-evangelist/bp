@@ -79,16 +79,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorDetailsEntity:
+    ResultEntity:
       type: object
       properties:
-        errorCode:
-          type: integer
-          format: int32
-        errorMessage:
+        message:
           type:
           - string
           - 'null'
+        success:
+          type: boolean
+        errorDetails:
+          $ref: '#/components/schemas/ErrorDetailsEntity'
+        correlationId:
+          type: string
+          format: uuid
       additionalProperties: false
     OpenApiInvoiceResponse:
       type: object
@@ -234,20 +238,16 @@ components:
           - 'null'
           description: Payment method description - Description for the payment method
       additionalProperties: false
-    ResultEntity:
+    ErrorDetailsEntity:
       type: object
       properties:
-        message:
+        errorCode:
+          type: integer
+          format: int32
+        errorMessage:
           type:
           - string
           - 'null'
-        success:
-          type: boolean
-        errorDetails:
-          $ref: '#/components/schemas/ErrorDetailsEntity'
-        correlationId:
-          type: string
-          format: uuid
       additionalProperties: false
     OpenApiInvoicesResponse:
       type: object

@@ -137,48 +137,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    pol_service_api.Models.Common.ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
-      additionalProperties: false
-    pol_service_api.Models.Common.PolError:
-      type: object
-      properties:
-        errorCode:
-          type:
-          - string
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    pol_service_api.Request.Wallet.PostPaymentMethodRequest:
-      required:
-      - payment_method
-      type: object
-      properties:
-        payment_method:
-          $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethod'
-      additionalProperties: false
-    pol_service_api.Models.Wallet.PostPaymentMethodResponse:
-      type: object
-      properties:
-        entityId:
-          type:
-          - string
-          - 'null'
-        managementInfo:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     pol_service_api.Models.Wallet.CreditCard:
       required:
       - full_name
@@ -199,15 +157,6 @@ components:
           minLength: 1
           type: string
         year:
-          minLength: 1
-          type: string
-      additionalProperties: false
-    pol_service_api.Request.Wallet.DeletePaymentMethodRequest:
-      required:
-      - entityId
-      type: object
-      properties:
-        entityId:
           minLength: 1
           type: string
       additionalProperties: false
@@ -276,6 +225,66 @@ components:
       - 511
       type: integer
       format: int32
+    pol_service_api.Models.Wallet.PostPaymentMethodResponse:
+      type: object
+      properties:
+        entityId:
+          type:
+          - string
+          - 'null'
+        managementInfo:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Common.ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/pol_service_api.Models.Common.PolError'
+      additionalProperties: false
+    pol_service_api.Request.Wallet.PostPaymentMethodRequest:
+      required:
+      - payment_method
+      type: object
+      properties:
+        payment_method:
+          $ref: '#/components/schemas/pol_service_api.Models.Wallet.PostPaymentMethod'
+      additionalProperties: false
+    pol_service_api.Models.Common.PolError:
+      type: object
+      properties:
+        errorCode:
+          type:
+          - string
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    pol_service_api.Models.Wallet.Metadata:
+      required:
+      - tpin
+      type: object
+      properties:
+        tpin:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    pol_service_api.Request.Wallet.DeletePaymentMethodRequest:
+      required:
+      - entityId
+      type: object
+      properties:
+        entityId:
+          minLength: 1
+          type: string
+      additionalProperties: false
     pol_service_api.Models.Wallet.PostPaymentMethod:
       required:
       - fuel_card
@@ -286,15 +295,6 @@ components:
           $ref: '#/components/schemas/pol_service_api.Models.Wallet.CreditCard'
         metadata:
           $ref: '#/components/schemas/pol_service_api.Models.Wallet.Metadata'
-      additionalProperties: false
-    pol_service_api.Models.Wallet.Metadata:
-      required:
-      - tpin
-      type: object
-      properties:
-        tpin:
-          minLength: 1
-          type: string
       additionalProperties: false
   securitySchemes:
     Bearer:
