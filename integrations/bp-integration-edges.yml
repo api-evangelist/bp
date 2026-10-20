@@ -74,11 +74,43 @@ edges:
     detected: '2026-10-19'
   detected_by: sweep-capital-markets.py
   first_seen: '2026-10-19'
+- partner_name: CharIN e.V. (Charging Interface Initiative)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.charin.global/community/bp-international-limited
+  category: charging-interface standards association membership
+  contract_reference:
+    register: CharIN e.V. members (charin.global/community, membership:core + membership:regular)
+    standard: CCS / MCS / ISO 15118 (Plug & Charge)
+    spec_file: null
+    role: charin-member
+    registered_name: BP International Limited
+    register_id: https://www.charin.global/community/bp-international-limited
+    partner_tier: core
+    member_since: null
+    matched_domain: bp.com
+    matched_by: domain
+    signal_note: 'participation only: association membership; tier is context, never counted'
+    detected_by: sweep-ev-charging.py
+    detected: '2026-10-20'
+    identity: wikidata Q152057 'BP' P856 https://bp.com
+    identity_source: wikidata P856 (member page gives no website; labelled provenance step)
+  detected_by: sweep-ev-charging.py
+  first_seen: '2026-10-20'
 generated: '2026-10-13'
 method: searched
 checked:
 - https://api.arcadia.com/plug/providers/public
 - https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+- https://evroaming.org/members/
+- https://openchargealliance.org/certified-companies/
+- https://openchargealliance.org/withdrawn/
+- https://www.charin.global/community/membership:core
+- https://www.charin.global/community/membership:regular
 source:
 - https://api.arcadia.com/plug/providers/public
 - https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
