@@ -71,11 +71,14 @@ edges:
       legal_name: ''
       country: GB
     detected_by: sweep-capital-markets.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-capital-markets.py
-  first_seen: '2026-10-15'
+  first_seen: '2026-10-19'
 generated: '2026-10-13'
 method: searched
 checked:
+- https://api.arcadia.com/plug/providers/public
+- https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+source:
 - https://api.arcadia.com/plug/providers/public
 - https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
