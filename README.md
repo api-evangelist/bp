@@ -1,4 +1,4 @@
-# BP (bp)
+# BP
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,76 +64,145 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-BP (British Petroleum) is one of the world's largest integrated energy companies, operating in over 70 countries across oil and gas exploration, production, refining, distribution, marketing, petrochemicals, power generation, and renewable energy. BP operates an API Marketplace developer portal at developer.bp.com, enabling seamless integration with BP's digital services. The portal provides API discovery, testing playgrounds, documentation, billing management, and usage monitoring.
+BP (British Petroleum) is one of the world's largest integrated energy companies, operating in over 70 countries across oil and gas exploration, production, refining, distribution, marketing, petrochemicals, power generation and renewable energy. BP runs two distinct public API surfaces. The bp Open Fleet Developer Portal (developer.fleet.bp.com) publishes six machine-readable OpenAPI 3.0.1 contracts covering fleet-card management, invoicing, fuel transactions, retail site information and Aral AppConnect pay-at-pump authorization, secured with OAuth2 client credentials against api.fleet.bp.com and a matching sandbox. The bp API Marketplace (developer.bp.com) is a white-labelled RapidAPI Enterprise Hub whose catalogue sits behind a login. Access to both is aimed at existing B2B fleet and mobility customers rather than public self-serve signup.
 
-**URL:** [https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bp/refs/heads/main/apis.yml)
+**Areas:** Energy · Oil · Gas · Renewables · Developer Platform · Fleet Management · Fuel Cards · Mobility · Retail Fuel · EV Charging · Oil and Gas
 
-## Scope
+## BP on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for BP is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bp/](https://apis.io/providers/bp/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-- Energy
-- Oil
-- Gas
-- Renewables
-- Developer Platform
+- [BP API Marketplace](https://apis.io/apis/bp/bp-api-marketplace/) — The bp API Marketplace is a white-labelled RapidAPI Enterprise Hub developer portal for BP's digital APIs. It provides API discovery, a testing playground,…
+- [BP Cards API](https://apis.io/apis/bp/bp-cards-api/) — The Cards API from BP — 1 operation(s) for cards.
+- [BP Fueling API](https://apis.io/apis/bp/bp-fueling-api/) — The Fueling API from BP — 2 operation(s) for fueling.
+- [BP Open API Invoices API](https://apis.io/apis/bp/bp-openapiinvoices-api/) — The OpenApiInvoices API from BP — 1 operation(s) for openapiinvoices.
+- [BP Open API Transactions API](https://apis.io/apis/bp/bp-openapitransactions-api/) — The OpenApiTransactions API from BP — 1 operation(s) for openapitransactions.
+- [BP Site Discovery API](https://apis.io/apis/bp/bp-sitediscovery-api/) — The SiteDiscovery API from BP — 2 operation(s) for sitediscovery.
+- [BP Token API](https://apis.io/apis/bp/bp-token-api/) — The Token API from BP — 1 operation(s) for token.
+- [BP Health Check API](https://apis.io/apis/bp/bp-health-check-api/) — The Health Check API from BP — 1 operation(s) for health check.
+- [BP Payment Method API](https://apis.io/apis/bp/bp-payment-method-api/) — The Payment Method API from BP — 1 operation(s) for payment method.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-03-01
-- **Modified:** 2026-04-21
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### BP API Marketplace
+Model Context Protocol servers that expose the API to agents.
 
-The BP API Marketplace is a developer portal providing access to BP's digital APIs and services. Features include API discovery, testing playground, documentation and tutorials, usage monitoring, error tracking, latency monitoring, and billing management.
+- [bp-mcp.yml](https://apis.io/servers/bp/bp-mcp-yml/)
 
-**Human URL:** [https://developer.bp.com/hub](https://developer.bp.com/hub)
+#### Overlays (6)
 
-#### Tags
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- Energy
-- Oil
-- Gas
-- Developer Platform
+- [Bp Fleet Aral Appconnect Overlay](https://apis.io/overlays/bp/bp-fleet-aral-appconnect-overlay/)
+- [Bp Fleet Authentication Overlay](https://apis.io/overlays/bp/bp-fleet-authentication-overlay/)
+- [Bp Fleet Card Management Overlay](https://apis.io/overlays/bp/bp-fleet-card-management-overlay/)
+- [Bp Fleet Invoice Management Overlay](https://apis.io/overlays/bp/bp-fleet-invoice-management-overlay/)
+- [Bp Fleet Retail Site Information Overlay](https://apis.io/overlays/bp/bp-fleet-retail-site-information-overlay/)
+- [Bp Fleet Transaction Management Overlay](https://apis.io/overlays/bp/bp-fleet-transaction-management-overlay/)
 
-#### Properties
+#### Security (3)
 
-- [Portal](https://developer.bp.com/hub)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Developer Portal Features
+- [Bp Authentication](https://apis.io/security/bp/bp-authentication/)
+- [Bp Domain Security](https://apis.io/security/bp/bp-domain-security/)
+- [Bp Vulnerability Disclosure](https://apis.io/security/bp/bp-vulnerability-disclosure/)
 
-- API discovery and browsing
-- Testing playground environment
-- API documentation and tutorials
-- API specifications
-- Developer dashboard
-- Usage monitoring and analytics
-- Error and latency tracking
-- Billing and subscription management
+#### OAuth scopes (1)
 
-## Common Properties
+The permissions the API asks for.
+
+- [Bp Scopes](https://apis.io/scopes/bp/bp-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Bp Plans Pricing](https://apis.io/plans/bp/bp-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Bp Rate Limits](https://apis.io/rate-limits/bp/bp-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Bp Finops](https://apis.io/finops/bp/bp-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.bp.com)
-- [Developer Portal](https://developer.bp.com/hub)
-- [Investor Relations](https://www.bp.com/en/global/corporate/investors.html)
-- [Sustainability](https://www.bp.com/en/global/corporate/sustainability.html)
+- [Documentation](https://developer.bp.com/bp%20API%20Marketplace%20User%20Guide.pdf)
+- [Getting started](https://developer.fleet.bp.com/DE/getting-started)
+- [API reference](https://developer.fleet.bp.com/DE/apis)
+- [Support](https://developer.fleet.bp.com/DE/support)
+- [Security](https://bp.responsibledisclosure.com/hc/en-us)
+- [Terms of service](https://www.bp.com/legal-notice)
+- [Privacy policy](https://www.bp.com/en/global/privacy/global-products-and-services-notices.html)
+- [GitHub](https://github.com/bp)
+- [Status](https://developer.fleet.bp.com/DE/api-status)
 
-## About
+## API Evangelist rating
 
-- **Founded:** 1909
-- **Headquarters:** London, United Kingdom
-- **Stock Ticker:** BP (NYSE, LSE)
-- **Industry:** Integrated Energy, Oil and Gas (SIC 2911)
-- **Operations:** 70+ countries
+**Kin Score 44.5** — developing · rubric 0.25.0 · scored 2026-10-23
 
-## Maintainers
+| Facet | Score |
+|---|---|
+| Discoverability | 69.6 |
+| Contract quality | 38.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 60.5 |
+| Developer ergonomics | 54.2 |
+| Access clarity | 27.6 |
 
-**FN:** Kin Lane
+**Agent readiness 45.6** — agent-ready (gated down from agent-native)
 
-**Email:** info@apievangelist.com
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | verified |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 39.3** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bp/](https://apis.io/providers/bp/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BP: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bp/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
